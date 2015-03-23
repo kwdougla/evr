@@ -11,7 +11,7 @@
     <script type="text/javascript">
       function initialize() {
         var mapOptions = {
-          center: { lat: 40.1430058, lng: -74.7311156},
+          center: {lat: 40.1430058, lng: -74.7311156},
           zoom: 8
         };
         var map = new google.maps.Map(document.getElementById('map-canvas'),
@@ -24,7 +24,7 @@
 
     <center>
     <h3 style="color:#F58025"> Interactive Heat Map </h3>
-    <form METHOD=GET style="color:#FFFFFF">
+    <form name=myForm METHOD=GET style="color:#FFFFFF">
     Hours:
     <select name=Hour>
       <option value=0>12</option>
@@ -62,6 +62,44 @@
     <br><br>
     <a href="plots.html" style="color: #1E90FF">Go to Interactive Arrival Rates Plots</a>
     </center>
+
+    <!-- Plotting Javascript Code Here -->
+    <script>
+
+    var hrs  = document.forms["myForm"]["Hour"].value;
+    var mins = document.forms["myForm"]["Min"].value;
+    var ampm = document.forms["myForm"]["Mod"].value;
+    var typ  = document.forms["myForm"]["Type"].value;
+
+    if (hrs !== null && mins !== null && ampm !== null && typ !== null) {
+
+      var pixel;
+
+      // Define the LatLng coordinates for the pixel's outline.
+      var pixelCoords = [
+        new google.maps.LatLng(40.830859, -74.368960),//myhouse
+        new google.maps.LatLng(40.344185, -74.651427),//pu
+        new google.maps.LatLng(40.137298, -74.440258),//6flags
+        new google.maps.LatLng(40.346697, -74.065025)//redbank
+      ];
+
+      // Construct the pixel.
+      pixel = new google.maps.Polygon({
+        paths: pixelCoords,
+        strokeColor: '#FF0000',
+        strokeOpacity: hrs/11.,
+        strokeWeight: 2,
+        fillColor: '#FF0000',
+        fillOpacity: mins/60.
+      });
+
+      pixel.setMap(map);
+
+      google.maps.event.addDomListener(window, 'load', initialize);
+
+    }
+
+    </script>
 
     <div id="map-canvas" style="width: 50%; height: 75%; margin:0 auto"></div>
     <center>

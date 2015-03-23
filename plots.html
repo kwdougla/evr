@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html>
 <title> Interactive Arrival Rates Plots </title>
-  <body bgcolor="000000">
+
+  <head>
+    <script>
+      function setfocus() {document.myForm.x.focus();}
+    </script>
+  </head>
+
+  <body onload ='setfocus();' bgcolor="000000">
     <center>
     <h3 style="color:#F58025"> Interactive Arrival Rates Plots </h3>
-    <form METHOD=GET style="color:#FFFFFF">
+    <form name=myForm METHOD=GET style="color:#FFFFFF">
     X: <input type=text name=x size=2> <p>
-    Y: <input type=text name=x size=2> <p>
+    Y: <input type=text name=y size=2> <p>
     <!-- Time (hhm0): <input type=text name=Time size=4> <p> -->
     Arrival Type: <input type=radio name=Type value="indiv" checked=checked> Individuals
                   <input type=radio name=Type value="units"> "Departure Units"
