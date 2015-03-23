@@ -54,17 +54,14 @@
             new google.maps.LatLng(40.346697, -74.065025)//redbank
           ];
 
-          var opac = (10+mins)/60.;
-          alert(opac);
-
           // Construct the pixel.
           pixel = new google.maps.Polygon({
             paths: pixelCoords,
             strokeColor: '#FF0000',
-            strokeOpacity: opac,
+            strokeOpacity: hrs/11.,
             strokeWeight: 2,
             fillColor: '#FF0000',
-            fillOpacity: opac
+            fillOpacity: hrs/50.
           });
 
           pixel.setMap(map);
@@ -73,7 +70,7 @@
       }
 
       google.maps.event.addDomListener(window, 'load', initialize);
-      
+
     </script>
   </head>
   <body bgcolor="000000">
@@ -84,7 +81,11 @@
     Hours:
     <select name=Hour>
       <option value=0>12</option>
-      <option value=1>1</option>
+      <? if (hrs == 1): ?>
+        <option value=1 selected="selected">1</option>
+      <? else: ?>
+        <option value=1>1</option>
+      <? endif; ?>
       <option value=2>2</option>
       <option value=3>3</option>
       <option value=4>4</option>
