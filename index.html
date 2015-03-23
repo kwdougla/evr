@@ -44,8 +44,6 @@
         // Plot Pixel polygons.
         if (typeof hrs != 'undefined') {
 
-          alert(mins);
-
           var pixel;
 
           // Define the LatLng coordinates for the pixel's outline.
@@ -56,14 +54,17 @@
             new google.maps.LatLng(40.346697, -74.065025)//redbank
           ];
 
+          var opac = (10+mins)/60.;
+          alert(opac);
+
           // Construct the pixel.
           pixel = new google.maps.Polygon({
             paths: pixelCoords,
             strokeColor: '#FF0000',
-            strokeOpacity: (10+mins)/60.,
+            strokeOpacity: opac,
             strokeWeight: 2,
             fillColor: '#FF0000',
-            fillOpacity: (10+mins)/60.
+            fillOpacity: opac.
           });
 
           pixel.setMap(map);
