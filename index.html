@@ -19,7 +19,7 @@
         var map = new google.maps.Map(document.getElementById('map-canvas'),
             mapOptions);
 
-        // Plot Pixel polygons.
+        // Get submitted parameters.
         var params = {};
 
         if (location.search) {
@@ -31,14 +31,17 @@
             }
         }
         
-        var hrs = params[0];
-        alert(hrs);
+        var hrs  = params[0];
+        var mins = params[1];
+        var ampm = params[2];
+        var typ  = params[3];
 
         //var hrs = location.search.split('Hour=')[1]
         //var mins = document.forms["myForm"]["Min"].value;
         //var ampm = document.forms["myForm"]["Mod"].value;
         //var typ  = document.forms["myForm"]["Type"].value;
 
+        // Plot Pixel polygons.
         if (hrs !== null && mins !== null && ampm !== null && typ !== null) {
 
           var pixel;
