@@ -27,11 +27,11 @@
 
             for (var i = 0; i < parts.length; i++) {
                 var nv = parts[i].split('=');
-                params[nv[0]] = nv[1];
+                params[i] = nv[1];
             }
         }
         
-        var hrs = params.hrs;
+        var hrs = params[0];
         alert(hrs);
 
         //var hrs = location.search.split('Hour=')[1]
