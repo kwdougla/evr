@@ -58,10 +58,10 @@
           pixel = new google.maps.Polygon({
             paths: pixelCoords,
             strokeColor: '#FF0000',
-            strokeOpacity: hrs/11.,
+            strokeOpacity: (10+mins)/60.,
             strokeWeight: 2,
             fillColor: '#FF0000',
-            fillOpacity: mins/60. + 1/6.
+            fillOpacity: (10+mins)/60.
           });
 
           pixel.setMap(map);
