@@ -20,14 +20,14 @@
             mapOptions);
 
         // Plot Pixel polygons.
-        var hrs  = document.forms["myForm"]["Hour"].value;
+        var hrs = location.search.split('Hour=')[1]
         var mins = document.forms["myForm"]["Min"].value;
         var ampm = document.forms["myForm"]["Mod"].value;
         var typ  = document.forms["myForm"]["Type"].value;
 
         if (hrs !== null && mins !== null && ampm !== null && typ !== null) {
 
-          alert(hrs, mins, ampm, typ);
+          alert(hrs);
 
           var pixel;
 
