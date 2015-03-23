@@ -25,9 +25,39 @@
     <center>
     <h2 style="color:#F58025"> Interactive Heat Map </h2>
     <form METHOD=GET style="color:#FFFFFF">
-    Time (hhm0): <input type=text name=Time size=4> <p>
+    Hours:
+    <select>
+      <option value=0>12</option>
+      <option value=1>1</option>
+      <option value=2>2</option>
+      <option value=3>3</option>
+      <option value=4>4</option>
+      <option value=5>5</option>
+      <option value=6>6</option>
+      <option value=7>7</option>
+      <option value=8>8</option>
+      <option value=9>9</option>
+      <option value=10>10</option>
+      <option value=11>11</option>
+    </select>
+    Minutes:
+    <select>
+      <option value=0>0</option>
+      <option value=10>10</option>
+      <option value=20>20</option>
+      <option value=30>30</option>
+      <option value=40>40</option>
+      <option value=50>50</option>
+    </select>
+    AM/PM:
+    <select>
+      <option value="AM">AM</option>
+      <option value="PM">PM</option>
+    </select> <p>
+    <!-- Time (hhm0): <input type=text name=Time size=4> <p> -->
     Arrival Type: <input type=radio name=Type value="indiv" checked=checked> Individuals
                   <input type=radio name=Type value="units"> "Departure Units"
+    <br>
     <input type=submit>
     </center>
 
