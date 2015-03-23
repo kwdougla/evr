@@ -36,15 +36,13 @@
         var ampm = params[2];
         var typ  = params[3];
 
-        alert(hrs);
-
         //var hrs = location.search.split('Hour=')[1]
         //var mins = document.forms["myForm"]["Min"].value;
         //var ampm = document.forms["myForm"]["Mod"].value;
         //var typ  = document.forms["myForm"]["Type"].value;
 
         // Plot Pixel polygons.
-        if (hrs !== null && mins !== null && ampm !== null && typ !== null) {
+        if (typeof hrs != 'undefined') {
 
           var pixel;
 
