@@ -15,7 +15,7 @@
           center: {lat: 40.1430058, lng: -74.7311156},
           zoom: 8
         };
-        
+
         var map = new google.maps.Map(document.getElementById('map-canvas'),
             mapOptions);
 
@@ -26,6 +26,8 @@
         var typ  = document.forms["myForm"]["Type"].value;
 
         if (hrs !== null && mins !== null && ampm !== null && typ !== null) {
+
+          alert("made it");
 
           var pixel;
 
