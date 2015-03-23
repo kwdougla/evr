@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+<title> Interactive Heat Map </title>
   <head>
     <style type="text/css">
       html, body, #map-canvas { height: 100%; margin: 0; padding: 0;}
@@ -20,6 +21,17 @@
     </script>
   </head>
   <body>
-<div id="map-canvas" style="width: 50%; height: 75%; margin:0 auto"></div>
+
+    <h2> COS 333 Survey </h2>
+    <form METHOD=GET>
+    Time (hhmm): <input type=text name=Time size=4> <p>
+    <p>
+    <input type=submit> <input type=reset>
+    </form>
+
+    <br>
+
+    <div id="map-canvas" style="width: 50%; height: 75%; margin:0 auto"></div>
+    
   </body>
 </html>
