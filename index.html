@@ -27,13 +27,12 @@
 
             for (var i = 0; i < parts.length; i++) {
                 var nv = parts[i].split('=');
-                if (!nv[0]) continue;
-                params[nv[0]] = nv[1] || true;
+                params[nv[0]] = nv[1];
             }
         }
         
         var hrs = params.hrs;
-        alert(parts.length);
+        alert(hrs);
 
         //var hrs = location.search.split('Hour=')[1]
         //var mins = document.forms["myForm"]["Min"].value;
