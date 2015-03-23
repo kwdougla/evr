@@ -1,29 +1,9 @@
 <!DOCTYPE html>
 <html>
-<title> Interactive Heat Map </title>
-  <head>
-    <style type="text/css">
-      html, body, #map-canvas { height: 100%; margin: 0; padding: 0;}
-    </style>
-    <script type="text/javascript"
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4SPbDlN0XvyPEJFZhDhd8hQ0whisSD7Q">
-    </script>
-    <script type="text/javascript">
-      function initialize() {
-        var mapOptions = {
-          center: { lat: 40.1430058, lng: -74.7311156},
-          zoom: 8
-        };
-        var map = new google.maps.Map(document.getElementById('map-canvas'),
-            mapOptions);
-      }
-      google.maps.event.addDomListener(window, 'load', initialize);
-    </script>
-  </head>
+<title> Interactive Arrival Rates Plots </title>
   <body bgcolor="000000">
-
     <center>
-    <h4 style="color:#F58025"> Interactive Heat Map </h4>
+    <h4 style="color:#F58025"> Interactive Arrival Rates Plots </h4>
     <form METHOD=GET style="color:#FFFFFF">
     Hours:
     <select>
@@ -59,11 +39,7 @@
                   <input type=radio name=Type value="units"> "Departure Units"
     <br> <br>
     <input type=submit>
-    <br>
-    <a href="kwdougla.github.io/plots.html">Go to Interactive Arrival Rates Plots</a>
     </center>
-
-    <div id="map-canvas" style="width: 50%; height: 73%; margin:0 auto"></div>
     <center>
     <h5 style="color:#F58025"> Kyle Douglas, 2015 </h5>
     </center>
