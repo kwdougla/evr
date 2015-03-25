@@ -77,7 +77,7 @@
           // pixel.setMap(map);
 
           // Create heat map data.
-          var heatMapData = {};
+          var heatMapData = [];
           // var heatMapData = [
           //   {location: new google.maps.LatLng(40.630810, -74.368949), weight: 0.5},
           //   {location: new google.maps.LatLng(40.344185, -74.651427), weight: 2},
@@ -103,7 +103,7 @@
               var data = allTextLines[i].split(',');
               var oX = data[0];
               var oY = data[1];
-              heatMapData[i] = {location: new google.maps.LatLng(38.9+parseInt(oY)/138.2, -75.6+parseInt(oX)/108.907), weight: 2+72*ampm+6*hrs+mins};
+              heatMapData.push({location: new google.maps.LatLng(38.9+parseInt(oY)/138.2, -75.6+parseInt(oX)/108.907), weight: 2+72*ampm+6*hrs+mins});
             }
           }
 
