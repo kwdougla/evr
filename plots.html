@@ -3,7 +3,7 @@
 <title> Interactive Plots </title>
 
   <head>
-    
+
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
     <script>
@@ -31,9 +31,14 @@
       var str3 = ".png"
 
       var final_str = "/"+((((typ.concat(str1)).concat(x)).concat(str2)).concat(y)).concat(str3);
-      alert(final_str);
       //document.getElementById("finalname").innerHTML = final_str;
-      $("#myImg").attr("src",final_str);
+      //$("#myImg").attr("src",final_str);
+
+      $(document).ready(function(){
+        $("button").click(function(){
+          $("#myImg").attr("src",final_str);
+        });
+      });
 
       //oX = document.getElementById('oX');
       //oX.innerHTML = x;
