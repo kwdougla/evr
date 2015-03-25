@@ -75,7 +75,7 @@
           // pixel.setMap(map);
 
           // Create heat map data.
-          var heatMapData = [];
+          var heatMapData = {};
           // var heatMapData = [
           //   {location: new google.maps.LatLng(40.630810, -74.368949), weight: 0.5},
           //   {location: new google.maps.LatLng(40.344185, -74.651427), weight: 2},
@@ -83,14 +83,14 @@
           //   {location: new google.maps.LatLng(40.346697, -74.065025), weight: 2},
           // ];
 
-          //$(document).ready(function() {
+          $(document).ready(function() {
           $.ajax({
             type: "GET",
             url: typfile,
             dataType: "text",
             success: function(data) {processData(data);}
           });
-          //});
+          });
           alert(typfile);
 
           function processData(allText) {
@@ -101,7 +101,7 @@
               var data = allTextLines[i].split(',');
               var oX = data[0];
               var oY = data[1];
-              headMapData.push({location: new google.maps.LatLng(38.9+parseInt(oY)/138.2, -75.6+parseInt(oX)/108.907), weight: 2+72*ampm+6*hrs+mins});
+              headMapData[i] = {location: new google.maps.LatLng(38.9+parseInt(oY)/138.2, -75.6+parseInt(oX)/108.907), weight: 2+72*ampm+6*hrs+mins};
             }
           }
 
