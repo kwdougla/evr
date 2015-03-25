@@ -4,7 +4,32 @@
 
   <head>
     <script>
+
       function setfocus() {document.myForm.x.focus();}
+
+      // Get submitted parameters.
+      var params = {};
+
+      if (location.search) {
+          var parts = location.search.substring(1).split('&');
+
+          for (var i = 0; i < parts.length; i++) {
+              var nv = parts[i].split('=');
+              params[i] = nv[1];
+          }
+      }
+      
+      var x   = params[0];
+      var y   = params[1];
+      var typ = params[2];
+
+      oX = document.getElementById('oX');
+      oX.innerHTML = x;
+      oY = document.getElementById('oY');
+      oY.innerHTML = y;
+      typ = document.getElementById('typ');
+      oY.innerHTML = typ;
+
     </script>
   </head>
 
@@ -25,7 +50,10 @@
     <a href="index.html" style="color: #1E90FF">Go to Interactive Arrival Rate Heat Map</a>
     <br><br>
 
-    <img src="indiv_png/115,55.png" alt="Individuals Arrival Rate Plot" style="width: 50%; height: 75%; margin:0 auto">
+    <img src="indiv_png/115,55.png" alt="Select a Pixel" style="width:800px;height:400px">
+
+    <br><br>
+    <button>Try it</button>
 
     </center>
     <center>
