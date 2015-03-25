@@ -2,7 +2,7 @@
 <html>
 <title> Interactive Heat Map </title>
   <head>
-    
+
     <style type="text/css">
       html, body, #map-canvas { height: 100%; margin: 0; padding: 0;}
     </style>
@@ -42,6 +42,7 @@
         var mins = params[1];
         var ampm = params[2];
         var typ  = params[3];
+        var typfile = typ+".csv";
 
         //var hrs = location.search.split('Hour=')[1]
         //var mins = document.forms["myForm"]["Min"].value;
@@ -51,27 +52,69 @@
         // Plot Pixel polygons.
         if (typeof hrs != 'undefined') {
 
-          var pixel;
+          // var pixel;
 
-          // Define the LatLng coordinates for the pixel's outline.
-          var pixelCoords = [
-            new google.maps.LatLng(40.630810, -74.368949),//myhouse
-            new google.maps.LatLng(40.344185, -74.651427),//pu
-            new google.maps.LatLng(40.137298, -74.440258),//6flags
-            new google.maps.LatLng(40.346697, -74.065025)//redbank
-          ];
+          // // Define the LatLng coordinates for the pixel's outline.
+          // var pixelCoords = [
+          //   new google.maps.LatLng(40.630810, -74.368949),//myhouse
+          //   new google.maps.LatLng(40.344185, -74.651427),//pu
+          //   new google.maps.LatLng(40.137298, -74.440258),//6flags
+          //   new google.maps.LatLng(40.346697, -74.065025)//redbank
+          // ];
 
-          // Construct the pixel.
-          pixel = new google.maps.Polygon({
-            paths: pixelCoords,
-            strokeColor: '#FF0000',
-            strokeOpacity: hrs/11.,
-            strokeWeight: 2,
-            fillColor: '#FF0000',
-            fillOpacity: mins/50.
+          // // Construct the pixel.
+          // pixel = new google.maps.Polygon({
+          //   paths: pixelCoords,
+          //   strokeColor: '#FF0000',
+          //   strokeOpacity: hrs/11.,
+          //   strokeWeight: 2,
+          //   fillColor: '#FF0000',
+          //   fillOpacity: mins/50.
+          // });
+
+          // pixel.setMap(map);
+
+          // Create head map data.
+          var heatMapData = [];
+          //   {location: new google.maps.LatLng(37.782, -122.447), weight: 0.5},
+          //   {location: new google.maps.LatLng(37.782, -122.443), weight: 2},
+          //   {location: new google.maps.LatLng(37.782, -122.441), weight: 3},
+          //   {location: new google.maps.LatLng(37.782, -122.439), weight: 2},
+          //   {location: new google.maps.LatLng(37.782, -122.435), weight: 0.5},
+          //   {location: new google.maps.LatLng(37.785, -122.447), weight: 3},
+          //   {location: new google.maps.LatLng(37.785, -122.445), weight: 2},
+          //   {location: new google.maps.LatLng(37.785, -122.441), weight: 0.5},
+          //   {location: new google.maps.LatLng(37.785, -122.437), weight: 2},
+          //   {location: new google.maps.LatLng(37.785, -122.435), weight: 3}
+          // ];
+
+          //$(document).ready(function() {
+          $.ajax({
+            type: "GET",
+            url: typfile,
+            dataType: "text",
+            success: function(data) {processData(data);}
           });
+          //});
 
-          pixel.setMap(map);
+          function processData(allText) {
+            var allTextLines = allText.split(/\r\n|\n/);
+            var lines = [];
+
+            for (var i = 0; i < allTextLines.length; i++) {
+              var data = allTextLines[i].split(',');
+              var oX = data[0];
+              var oY = data[1];
+              headMapData.push({location: new google.maps.LatLng(38.9+parseInt(oY)/138.2, -75.6+parseInt(oX)/108.907), weight: 2+72*ampm+6*hrs+mins});
+            }
+            // alert(lines);
+          }
+
+          var heatmap = new google.maps.visualization.HeatmapLayer({
+            data: heatMapData
+          });
+          heatmap.setMap(map);
+
         }
 
       }
@@ -101,15 +144,15 @@
     </select>
     <select name=Min>
       <option value=0>00-09</option>
-      <option value=10>10-19</option>
-      <option value=20>20-29</option>
-      <option value=30>30-39</option>
-      <option value=40>40-49</option>
-      <option value=50>50-59</option>
+      <option value=1>10-19</option>
+      <option value=2>20-29</option>
+      <option value=3>30-39</option>
+      <option value=4>40-49</option>
+      <option value=5>50-59</option>
     </select>
     <select name=Mod>
-      <option value="AM">AM</option>
-      <option value="PM">PM</option>
+      <option value="AM">0</option>
+      <option value="PM">1</option>
     </select> <p>
     <!-- Time (hhm0): <input type=text name=Time size=4> <p> -->
     Arrival Type: <input type=radio name=Type value="indiv" checked=checked> Individuals
