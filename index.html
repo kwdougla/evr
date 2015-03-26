@@ -32,17 +32,17 @@
         var params = {};
 
         if (location.search) {
-            var parts = location.search.substring(1).split('&');
+          var parts = location.search.substring(1).split('&');
 
-            for (var i = 0; i < parts.length; i++) {
-                var nv = parts[i].split('=');
-                params[i] = nv[1];
-            }
+          for (var i = 0; i < parts.length; i++) {
+            var nv = parts[i].split('=');
+            params[i] = nv[1];
+          }
         }
         
-        var hrs  = params[0];
-        var mins = params[1];
-        var ampm = params[2];
+        var hrs  = parseInt(params[0]);
+        var mins = parseInt(params[1]);
+        var ampm = parseInt(params[2]);
         var typ  = params[3];
         var typfile = typ+".csv";
 
