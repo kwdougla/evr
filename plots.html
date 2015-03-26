@@ -29,7 +29,6 @@
 
         var map = new google.maps.Map(document.getElementById('map-canvas'),
             mapOptions);
-        console.log("hello");
 
         // document.getElementById("finalname").innerHTML = final_str;
         // $("#myImg").attr("src",final_str);
@@ -37,16 +36,17 @@
         // $(document).ready(function(){
         //   $("button").click(function(){
 
-        // Get submitted parameters.
-        var params = {};
-
         if (location.search) {
-            var parts = location.search.substring(1).split('&');
 
-            for (var i = 0; i < parts.length; i++) {
-                var nv = parts[i].split('=');
-                params[i] = nv[1];
-            }
+          // Get submitted parameters.
+          var params = {};
+
+          var parts = location.search.substring(1).split('&');
+
+          for (var i = 0; i < parts.length; i++) {
+              var nv = parts[i].split('=');
+              params[i] = nv[1];
+          }
         
           var x   = params[0];
           var y   = params[1];
@@ -111,6 +111,7 @@
     <br><br>
     <a href="index.html" style="color: #52D017">Go to Interactive Arrival Rate Heat Map</a>
     <br><br>
+    </center>
 
     <!-- <table cellspacing=0 border=0 width=75% cellpadding=10>
       <tr>
@@ -122,15 +123,16 @@
     </table> -->
 
     <!-- <img id="myImg" src="/overlay_png/125,65.png" alt="Select a Valid Pixel" style="width:660px;height:330px"> -->
-    
+
     <!-- <div class="img">
         <img id="myImg" src="/overlay_png/125,65.png" alt="Select a Valid Pixel" style="width:800px;height:400px">
     </div>
     <br> -->
 
     <!-- style="width: 30%; height: 45%; margin:0 auto" -->
-    <div id="map-canvas"></div>
+    <div id="map-canvas" style="width: 30%; height: 45%; margin:0 auto"></div>
 
+    <center>
     <!-- <br><br> -->
     <h5 style="color:#F58025">Kyle Douglas, 2015</h5>
     </center>
