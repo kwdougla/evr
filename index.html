@@ -5,7 +5,7 @@
   <head>
 
     <style type="text/css">
-      html, body, #map-canvas { height: 100%; margin: 0; padding: 0;}
+      html, body, #map-canvas {height: 100%; float: right; margin: 0; padding: 0;}
     </style>
 
     <script type="text/javascript" src="./jquery-2.1.3.min.js"></script>
@@ -78,6 +78,7 @@
           // Create heat map data.
           var heatMapData = [];
 
+          // Read in data.
           $(document).ready(function() {
             $.ajax({
               type: "GET",
@@ -139,7 +140,7 @@
     <a href="plots.html?oX=125&oY=65&Type=overlay" style="color: #52D017">Go to Interactive Arrival Rate Plots</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index2.html" style="color: #52D017">** 2 Maps **</a>
     </center>
 
-    <div id="map-canvas" style="width: 50%; height: 75%; margin:0 auto"></div>
+    <div id="map-canvas" style="width: 50%; height: 75%; margin: 0px"></div>
 
     <center>
     <h5 style="color:#F58025">Kyle Douglas, 2015</h5>
