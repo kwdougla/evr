@@ -13,10 +13,6 @@
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4SPbDlN0XvyPEJFZhDhd8hQ0whisSD7Q&libraries=visualization&sensor=false">
     </script>
 
-    <!-- <script type="text/javascript"
-      src="https://maps.googleapis.com/maps/api/js?libraries=visualization&sensor=true">
-    </script> -->
-
     <script type="text/javascript">
       function initialize() {
 
@@ -79,12 +75,6 @@
 
           // Create heat map data.
           var heatMapData = [];
-          // var heatMapData = [
-          //   {location: new google.maps.LatLng(40.630810, -74.368949), weight: 0.5},
-          //   {location: new google.maps.LatLng(40.344185, -74.651427), weight: 2},
-          //   {location: new google.maps.LatLng(40.137298, -74.440258), weight: 3},
-          //   {location: new google.maps.LatLng(40.346697, -74.065025), weight: 2},
-          // ];
 
           $(document).ready(function() {
             $.ajax({
@@ -117,14 +107,6 @@
             heatmap.setMap(map);
 
           }
-
-          // should print 6
-          //console.log(heatMapData[1].weight);
-
-          // var heatmap = new google.maps.visualization.HeatmapLayer({
-          //   data: heatMapData
-          // });
-          // heatmap.setMap(map);
 
         }
 
