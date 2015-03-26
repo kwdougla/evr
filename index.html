@@ -110,15 +110,21 @@
               console.log(data[2+72*ampm+6*hrs+mins])
               console.log(heatMapData[i].weight);
             }
+
+            var heatmap = new google.maps.visualization.HeatmapLayer({
+              data: heatMapData
+            });
+            heatmap.setMap(map);
+          
           }
 
           // should print 6
-          console.log(heatMapData[1].weight);
+          //console.log(heatMapData[1].weight);
 
-          var heatmap = new google.maps.visualization.HeatmapLayer({
-            data: heatMapData
-          });
-          heatmap.setMap(map);
+          // var heatmap = new google.maps.visualization.HeatmapLayer({
+          //   data: heatMapData
+          // });
+          // heatmap.setMap(map);
 
         }
 
