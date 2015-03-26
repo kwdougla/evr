@@ -8,41 +8,46 @@
 
     <script type="text/javascript">
 
-      function setfocus() {document.myForm.x.focus();}
-      //document.getElementById("finalname").innerHTML = final_str;
-      //$("#myImg").attr("src",final_str);
+      //function setfocus() {document.myForm.x.focus();}
 
-      $(document).ready(function(){
+      function initialize() {
 
         document.myForm.x.focus();
 
-        $("button").click(function(){
+        //document.getElementById("finalname").innerHTML = final_str;
+        //$("#myImg").attr("src",final_str);
 
-          // Get submitted parameters.
-          var params = {};
+        $(document).ready(function(){
 
-          if (location.search) {
-              var parts = location.search.substring(1).split('&');
+          $("button").click(function(){
 
-              for (var i = 0; i < parts.length; i++) {
-                  var nv = parts[i].split('=');
-                  params[i] = nv[1];
-              }
-          }
-          
-          var x   = params[0];
-          var y   = params[1];
-          var typ = params[2];
+            // Get submitted parameters.
+            var params = {};
 
-          var str1 = "_png/";
-          var str2 = ",";
-          var str3 = ".png"
+            if (location.search) {
+                var parts = location.search.substring(1).split('&');
 
-          var final_str = "./"+((((typ.concat(str1)).concat(y)).concat(str2)).concat(x)).concat(str3);
+                for (var i = 0; i < parts.length; i++) {
+                    var nv = parts[i].split('=');
+                    params[i] = nv[1];
+                }
+            }
+            
+            var x   = params[0];
+            var y   = params[1];
+            var typ = params[2];
 
-          $("#myImg").attr("src",final_str);
+            var str1 = "_png/";
+            var str2 = ",";
+            var str3 = ".png"
+
+            var final_str = "./"+((((typ.concat(str1)).concat(y)).concat(str2)).concat(x)).concat(str3);
+
+            $("#myImg").attr("src",final_str);
+          });
         });
-      });
+
+      }
 
       //oX = document.getElementById('oX');
       //oX.innerHTML = x;
@@ -54,7 +59,7 @@
     </script>
   </head>
 
-  <body onload ='setfocus();' bgcolor="4C4646">
+  <body onload ='initialize();' bgcolor="4C4646">
     <center>
     <h3 style="color:#F58025"> Interactive Arrival Rate Plots </h3>
     <form name=myForm METHOD=GET style="color:#FFFFFF">
@@ -72,9 +77,8 @@
     <br><br>
 
     <!-- <img id="myImg" src="/overlay_png/125,65.png" alt="Select a Valid Pixel" style="width:660px;height:330px"> -->
-    <div class="img" style="width: 75%; height: auto; margin:0 auto">
-      <img id="myImg" src="/overlay_png/125,65.png" alt="Select a Valid Pixel">
-      <!-- style="width:660px;height:330px" -->
+    <div class="img">
+      <img id="myImg" src="/overlay_png/125,65.png" alt="Select a Valid Pixel" style="width:700x;height:350px">
     </div>
 
     <br><br>
