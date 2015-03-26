@@ -5,7 +5,27 @@
   <head>
 
     <style type="text/css">
-      html, body, #map-canvas { height: 100%; margin: 0; padding: 0;}
+    html, body,
+    #map-canvas1 {
+        height: 100%;
+        float:left;
+        margin: 0;
+        padding: 0;
+    }
+    #map-canvas2 {
+        height: 100%;
+        float:right;
+        margin: 0;
+        padding: 0;
+    }
+    #header {
+        padding:5px;
+        margin: auto;
+    }
+    #footer {
+        padding:15px;
+        margin: auto;
+    }
     </style>
 
     <script type="text/javascript" src="./jquery-2.1.3.min.js"></script>
@@ -22,7 +42,9 @@
           zoom: 8
         };
 
-        var map = new google.maps.Map(document.getElementById('map-canvas'),
+        var map1 = new google.maps.Map(document.getElementById('map-canvas1'),
+            mapOptions);
+        var map2 = new google.maps.Map(document.getElementById('map-canvas2'),
             mapOptions);
 
         // If anything is plotted:
@@ -37,13 +59,17 @@
             var nv = parts[i].split('=');
             params[i] = nv[1];
           }
-        
 
-          var hrs  = parseInt(params[0]);
-          var mins = parseInt(params[1]);
-          var ampm = parseInt(params[2]);
-          var typ  = params[3];
-          var typfile = typ+".csv";
+          var hrs1  = parseInt(params[0]);
+          var mins1 = parseInt(params[1]);
+          var ampm1 = parseInt(params[2]);
+          var hrs2  = parseInt(params[3]);
+          var mins2 = parseInt(params[4]);
+          var ampm2 = parseInt(params[5]);
+          var typ1  = params[6];
+          var typ2  = params[7];
+          var typfile1 = typ1+".csv";
+          var typfile2 = typ1+".csv";
 
           //var hrs = location.search.split('Hour=')[1]
           //var mins = document.forms["myForm"]["Min"].value;
@@ -75,19 +101,28 @@
           // pixel.setMap(map);
 
           // Create heat map data.
-          var heatMapData = [];
+          var heatMapData1 = [];
+          var heatMapData2 = [];
 
           $(document).ready(function() {
             $.ajax({
               type: "GET",
-              url: typfile,
+              url: typfile1,
               dataType: "text",
-              success: function(data) {processData(data);}
+              success: function(data) {processData1(data);}
             });
           });
-          // alert(typfile);
 
-          function processData(allText) {
+          $(document).ready(function() {
+            $.ajax({
+              type: "GET",
+              url: typfile2,
+              dataType: "text",
+              success: function(data) {processData2(data);}
+            });
+          });
+
+          function processData1(allText) {
             var allTextLines = allText.split(/\r\n|\n/);
             var lines = [];
 
@@ -95,16 +130,34 @@
               var data = allTextLines[i].split(',');
               var oY = data[0];
               var oX = data[1];
-              heatMapData[i] = {location: new google.maps.LatLng(38.9+parseInt(oY)/138.2, -75.6+parseInt(oX)/108.907), weight: data[2+72*ampm+6*hrs+mins]};
+              heatMapData1[i] = {location: new google.maps.LatLng(38.9+parseInt(oY)/138.2, -75.6+parseInt(oX)/108.907), weight: data[2+72*ampm1+6*hrs1+mins1]};
             }
 
-            var heatmap = new google.maps.visualization.HeatmapLayer({
-              data: heatMapData,
+            var heatmap1 = new google.maps.visualization.HeatmapLayer({
+              data: heatMapData1,
               dissipating: true,
-              maxIntensity: typ==="indiv" ? 1000 : 300
+              maxIntensity: typ1==="indiv" ? 1000 : 300
             });
-            heatmap.setMap(map);
+            heatmap1.setMap(map1);
+          }
 
+          function processData2(allText) {
+            var allTextLines = allText.split(/\r\n|\n/);
+            var lines = [];
+
+            for (var i = 0; i < allTextLines.length; i++) {
+              var data = allTextLines[i].split(',');
+              var oY = data[0];
+              var oX = data[1];
+              heatMapData2[i] = {location: new google.maps.LatLng(38.9+parseInt(oY)/138.2, -75.6+parseInt(oX)/108.907), weight: data[2+72*ampm2+6*hrs2+mins2]};
+            }
+
+            var heatmap2 = new google.maps.visualization.HeatmapLayer({
+              data: heatMapData2,
+              dissipating: true,
+              maxIntensity: typ2==="indiv" ? 1000 : 300
+            });
+            heatmap2.setMap(map2);
           }
         }
       }
@@ -113,36 +166,64 @@
 
     </script>
   </head>
+
   <body bgcolor="4C4646">
 
-    <center>
-    <h3 style="color:#F58025"> Interactive Arrival Rate Heat Map </h3>
-    <form name=myForm METHOD=GET style="color:#FFFFFF">
-    <select name=Hour>
-      <option value=0>12</option><option value=1>1</option><option value=2>2</option><option value=3>3</option><option value=4>4</option><option value=5>5</option><option value=6>6</option><option value=7>7</option><option value=8>8</option><option value=9>9</option><option value=10>10</option><option value=11>11</option>
-    </select>
-    <select name=Min>
-      <option value=0>00-09</option><option value=1>10-19</option><option value=2>20-29</option><option value=3>30-39</option><option value=4>40-49</option><option value=5>50-59</option>
-    </select>
-    <select name=Mod>
-      <option value=0>AM</option><option value=1>PM</option>
-    </select> <p>
-    <!-- Time (hhm0): <input type=text name=Time size=4> <p> -->
-    Arrival Type: <input type=radio name=Type value="indiv" checked=checked> Individuals
-                  <input type=radio name=Type value="units"> "Departure Units"
-    <p>
-    <!-- <input type=submit> -->
-    <button>Plot</button>
+    <!-- Above Maps -->
+    <div id="header">
+
+      <center>
+      <h3 style="color:#F58025"> Interactive Arrival Rate Heat Map </h3>
+
+      <form name=myForm METHOD=GET style="color:#FFFFFF">
+      Left:
+      <select name=Hourl>
+        <option value=0>12</option><option value=1>1</option><option value=2>2</option><option value=3>3</option><option value=4>4</option><option value=5>5</option><option value=6>6</option><option value=7>7</option><option value=8>8</option><option value=9>9</option><option value=10>10</option><option value=11>11</option>
+      </select>
+      <select name=Minl>
+        <option value=0>00-09</option><option value=1>10-19</option><option value=2>20-29</option><option value=3>30-39</option><option value=4>40-49</option><option value=5>50-59</option>
+      </select>
+      <select name=Modl>
+        <option value=0>AM</option><option value=1>PM</option>
+      </select>
+                Right:
+      <select name=Hourr>
+        <option value=0>12</option><option value=1>1</option><option value=2>2</option><option value=3>3</option><option value=4>4</option><option value=5>5</option><option value=6>6</option><option value=7>7</option><option value=8>8</option><option value=9>9</option><option value=10>10</option><option value=11>11</option>
+      </select>
+      <select name=Minr>
+        <option value=0>00-09</option><option value=1>10-19</option><option value=2>20-29</option><option value=3>30-39</option><option value=4>40-49</option><option value=5>50-59</option>
+      </select>
+      <select name=Modr>
+        <option value=0>AM</option><option value=1>PM</option>
+      </select>
+      <p>
+      <!-- Time (hhm0): <input type=text name=Time size=4> <p> -->
+      Left Arrival Type: <input type=radio name=Typel value="indiv" checked=checked> Individuals
+                    <input type=radio name=Typel value="units"> "Departure Units"          Right
+                Arrival Type: <input type=radio name=Typer value="indiv"> Individuals
+                    <input type=radio name=Typer value="units" checked=checked> "Departure Units"
+      <p>
+      <!-- <input type=submit> -->
+      <button>Plot</button>
+
+      <br><br>
+      <a href="plots.html?x=125&y=69&Type=overlay" style="color: #52D017">Go to Interactive Arrival Rate Plots</a><a href="index.html" style="color: #52D017">* 1 Map *</a>
+
+      </center>
+    </div>
     
-    <br><br>
-    <a href="plots.html?x=125&y=69&Type=overlay" style="color: #52D017">Go to Interactive Arrival Rate Plots</a>
-    </center>
+    <!-- Left Map -->
+    <div id="map-canvas1" style="width: 50%; height: 75%; margin:0 auto"></div>
+    <!-- <br style="clear:both;"/> -->
+    <!-- Right Map -->
+    <div id="map-canvas2" style="width: 50%; height: 75%; margin:0 auto"></div>
+    <!-- <br style="clear:both;"/> -->
 
-    <div id="map-canvas" style="width: 50%; height: 75%; margin:0 auto"></div>
-
-    <center>
-    <h5 style="color:#F58025">Kyle Douglas, 2015</h5>
-    </center>
+    <div id="footer">
+      <center>
+      <h5 style="color:#F58025">Kyle Douglas, 2015</h5>
+      </center>
+    </div>
 
   </body>
 </html>
