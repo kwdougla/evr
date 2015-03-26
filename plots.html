@@ -12,14 +12,13 @@
 
       function initialize() {
 
-        document.myForm.x.focus();
+        document.myForm.oX.focus();
 
-        //document.getElementById("finalname").innerHTML = final_str;
-        //$("#myImg").attr("src",final_str);
+        // document.getElementById("finalname").innerHTML = final_str;
+        // $("#myImg").attr("src",final_str);
 
-        $(document).ready(function(){
-
-          $("button").click(function(){
+        // $(document).ready(function(){
+        //   $("button").click(function(){
 
             // Get submitted parameters.
             var params = {};
@@ -37,6 +36,10 @@
             var y   = params[1];
             var typ = params[2];
 
+            document.myForm.oX = x;
+            document.myForm.oY = y;
+            document.myForm.Type = typ;
+
             var str1 = "_png/";
             var str2 = ",";
             var str3 = ".png"
@@ -44,8 +47,9 @@
             var final_str = "./"+((((typ.concat(str1)).concat(y)).concat(str2)).concat(x)).concat(str3);
 
             $("#myImg").attr("src",final_str);
-          });
-        });
+            
+        //   });
+        // });
 
       }
 
@@ -63,8 +67,8 @@
     <center>
     <h3 style="color:#F58025"> Interactive Arrival Rate Plots </h3>
     <form name=myForm METHOD=GET style="color:#FFFFFF">
-    X: <input type=text name=x size=2>
-    Y: <input type=text name=y size=2> <p>
+    X: <input type=text name=oX size=2>
+    Y: <input type=text name=oY size=2> <p>
     <!-- Time (hhm0): <input type=text name=Time size=4> <p> -->
     Arrival Type: <input type=radio name=Type value="indiv"> Individuals
                   <input type=radio name=Type value="units"> "Departure Units"
