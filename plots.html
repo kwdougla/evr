@@ -64,7 +64,9 @@
           
           //var final_str = "./"+((((typ.concat(str1)).concat(x)).concat(str2)).concat(y)).concat(str3);
 
+          // Change image and auto fields.
           $("#myImg").attr("src",final_str);
+          $("#type_"+typ).attr("checked",checked);
 
           var myLatlng = new google.maps.LatLng(38.9+parseInt(y)/138.2, -75.6+parseInt(x)/108.907);
           var marker = new google.maps.Marker({
@@ -108,9 +110,9 @@
     X: <input type=text name=oX size=2>
     Y: <input type=text name=oY size=2> <p>
     <!-- Time (hhm0): <input type=text name=Time size=4> <p> -->
-    Arrival Type: <input type=radio name=Type value="indiv"> Individuals
-                  <input type=radio name=Type value="units"> "Departure Units"
-                  <input type=radio name=Type value="overlay" checked=checked> Overlay
+    Arrival Type: <input id="type_indiv" type=radio name=Type value="indiv"> Individuals
+                  <input id="type_units" type=radio name=Type value="units"> "Departure Units"
+                  <input id="type_overlay" type=radio name=Type value="overlay" checked=checked> Overlay
     <br> <br>
     <button>Plot</button>
 
