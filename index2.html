@@ -72,6 +72,16 @@
           var typfile1 = typ1+".csv";
           var typfile2 = typ1+".csv";
 
+          // Change auto fields.
+          $("#hl_"+params[0]).attr("selected","selected");
+          $("#ml_"+params[1]).attr("selected","selected");
+          $("#modl_"+params[2]).attr("selected","selected");
+          $("#typel_"+typ1).attr("checked","checked");
+          $("#hr_"+params[3]).attr("selected","selected");
+          $("#mr_"+params[4]).attr("selected","selected");
+          $("#modr_"+params[5]).attr("selected","selected");
+          $("#typer_"+typ2).attr("checked","checked");
+
           //var hrs = location.search.split('Hour=')[1]
           //var mins = document.forms["myForm"]["Min"].value;
           //var ampm = document.forms["myForm"]["Mod"].value;
@@ -180,30 +190,30 @@
       <form name=myForm METHOD=GET style="color:#FFFFFF">
       Left:
       <select name=Hourl>
-        <option value=0>12</option><option value=1>1</option><option value=2>2</option><option value=3>3</option><option value=4>4</option><option value=5>5</option><option value=6>6</option><option value=7>7</option><option value=8>8</option><option value=9>9</option><option value=10>10</option><option value=11>11</option>
+        <option id="hl_0" value=0>12</option><option id="hl_1" value=1>1</option><option id="hl_2" value=2>2</option><option id="hl_3" value=3>3</option><option id="hl_4" value=4>4</option><option id="hl_5" value=5>5</option><option id="hl_6" value=6>6</option><option id="hl_7" value=7>7</option><option id="hl_8" value=8>8</option><option id="hl_9" value=9>9</option><option id="hl_10" value=10>10</option><option id="hl_11" value=11>11</option>
       </select>
       <select name=Minl>
-        <option value=0>00-09</option><option value=1>10-19</option><option value=2>20-29</option><option value=3>30-39</option><option value=4>40-49</option><option value=5>50-59</option>
+        <option id="ml_0" value=0>00-09</option><option id="ml_1" value=1>10-19</option><option id="ml_2" value=2>20-29</option><option id="ml_3" value=3>30-39</option><option id="ml_4" value=4>40-49</option><option id="ml_5" value=5>50-59</option>
       </select>
       <select name=Modl>
-        <option value=0>AM</option><option value=1>PM</option>
+        <option id="modl_0" value=0>AM</option><option id="modl_1" value=1>PM</option>
       </select>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Right:
       <select name=Hourr>
-        <option value=0>12</option><option value=1>1</option><option value=2>2</option><option value=3>3</option><option value=4>4</option><option value=5>5</option><option value=6>6</option><option value=7>7</option><option value=8>8</option><option value=9>9</option><option value=10>10</option><option value=11>11</option>
+        <option id="hr_0" value=0>12</option><option id="hr_1" value=1>1</option><option id="hr_2" value=2>2</option><option id="hr_3" value=3>3</option><option id="hr_4" value=4>4</option><option id="hr_5" value=5>5</option><option id="hr_6" value=6>6</option><option id="hr_7" value=7>7</option><option id="hr_8" value=8>8</option><option id="hr_9" value=9>9</option><option id="hr_10" value=10>10</option><option id="hr_11" value=11>11</option>
       </select>
       <select name=Minr>
-        <option value=0>00-09</option><option value=1>10-19</option><option value=2>20-29</option><option value=3>30-39</option><option value=4>40-49</option><option value=5>50-59</option>
+        <option id="mr_0" value=0>00-09</option><option id="mr_1" value=1>10-19</option><option id="mr_2" value=2>20-29</option><option id="mr_3" value=3>30-39</option><option id="mr_4" value=4>40-49</option><option id="mr_5" value=5>50-59</option>
       </select>
       <select name=Modr>
-        <option value=0>AM</option><option value=1>PM</option>
+        <option id="modr_0" value=0>AM</option><option id="modr_1" value=1>PM</option>
       </select>
       <p>
       <!-- Time (hhm0): <input type=text name=Time size=4> <p> -->
-      Left Arrival Type: <input type=radio name=Typel value="indiv" checked=checked> Individuals
-                    <input type=radio name=Typel value="units"> "Departure Units"
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Right Arrival Type: <input type=radio name=Typer value="indiv"> Individuals
-                    <input type=radio name=Typer value="units" checked=checked> "Departure Units"
+      Left Arrival Type: <input id="typel_indiv" type=radio name=Typel value="indiv" checked=checked> Individuals
+                    <input id="typel_units" type=radio name=Typel value="units"> "Departure Units"
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Right Arrival Type: <input id="typer_indiv" type=radio name=Typer value="indiv"> Individuals
+                    <input id="typer_units" type=radio name=Typer value="units" checked=checked> "Departure Units"
       <p>
       <!-- <input type=submit> -->
       <button>Plot</button>
