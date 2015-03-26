@@ -46,25 +46,34 @@
                 var nv = parts[i].split('=');
                 params[i] = nv[1];
             }
+        
+          var x   = params[0];
+          var y   = params[1];
+          var typ = params[2];
+
+          document.myForm.oX = x;
+          document.myForm.oY = y;
+          document.myForm.Type = typ;
+
+          var str1 = "_png/";
+          var str2 = ",";
+          var str3 = ".png"
+
+          var final_str = "./" + typ + str1 + x + str2 + y + str3;
+          
+          //var final_str = "./"+((((typ.concat(str1)).concat(x)).concat(str2)).concat(y)).concat(str3);
+
+          $("#myImg").attr("src",final_str);
+
+          var myLatlng = new google.maps.LatLng(38.9+parseInt(y)/138.2, -75.6+parseInt(x)/108.907);
+          var marker = new google.maps.Marker({
+              position: myLatlng,
+              title: "("+x+","+y+")"
+          });
+
+          // Add the marker to the map.
+          marker.setMap(map);
         }
-        
-        var x   = params[0];
-        var y   = params[1];
-        var typ = params[2];
-
-        document.myForm.oX = x;
-        document.myForm.oY = y;
-        document.myForm.Type = typ;
-
-        var str1 = "_png/";
-        var str2 = ",";
-        var str3 = ".png"
-
-        var final_str = "./" + typ + str1 + x + str2 + y + str3;
-        
-        //var final_str = "./"+((((typ.concat(str1)).concat(x)).concat(str2)).concat(y)).concat(str3);
-
-        $("#myImg").attr("src",final_str);
 
         //   });
         // });
