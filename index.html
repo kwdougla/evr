@@ -45,6 +45,12 @@
           var typ  = params[3];
           var typfile = typ+".csv";
 
+          // Change auto fields.
+          $("#h_"+params[0]).attr("selected","selected");
+          $("#m_"+params[1]).attr("selected","selected");
+          $("#mod_"+params[2]).attr("selected","selected");
+          $("#type_"+typ).attr("checked","checked");
+
           //var hrs = location.search.split('Hour=')[1]
           //var mins = document.forms["myForm"]["Min"].value;
           //var ampm = document.forms["myForm"]["Mod"].value;
@@ -120,17 +126,17 @@
     <h3 style="color:#F58025"> Interactive Arrival Rate Heat Map </h3>
     <form name=myForm METHOD=GET style="color:#FFFFFF">
     <select name=Hour>
-      <option value=0>12</option><option value=1>1</option><option value=2>2</option><option value=3>3</option><option value=4>4</option><option value=5>5</option><option value=6>6</option><option value=7>7</option><option value=8>8</option><option value=9>9</option><option value=10>10</option><option value=11>11</option>
+      <option id="h_0" value=0>12</option><option id="h_1" value=1>1</option><option id="h_2" value=2>2</option><option id="h_3" value=3>3</option><option id="h_4" value=4>4</option><option id="h_5" value=5>5</option><option id="h_6" value=6>6</option><option id="h_7" value=7>7</option><option id="h_8" value=8>8</option><option id="h_9" value=9>9</option><option id="h_10" value=10>10</option><option id="h_11" value=11>11</option>
     </select>
     <select name=Min>
-      <option value=0>00-09</option><option value=1>10-19</option><option value=2>20-29</option><option value=3>30-39</option><option value=4>40-49</option><option value=5>50-59</option>
+      <option id="m_0" value=0>00-09</option><option id="m_1" value=1>10-19</option><option id="m_2" value=2>20-29</option><option id="m_3" value=3>30-39</option><option id="m_4" value=4>40-49</option><option id="m_5" value=5>50-59</option>
     </select>
     <select name=Mod>
-      <option value=0>AM</option><option value=1>PM</option>
+      <option id="mod_0" value=0>AM</option><option id="mod_1" value=1>PM</option>
     </select> <p>
     <!-- Time (hhm0): <input type=text name=Time size=4> <p> -->
-    Arrival Type: <input type=radio name=Type value="indiv" checked=checked> Individuals
-                  <input type=radio name=Type value="units"> "Departure Units"
+    Arrival Type: <input id="type_indiv" type=radio name=Type value="indiv"> Individuals
+                  <input id="type_units" type=radio name=Type value="units" checked=checked> "Departure Units"
     <p>
     <!-- <input type=submit> -->
     <button>Plot</button>
