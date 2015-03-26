@@ -111,11 +111,14 @@
               console.log(heatMapData[i].weight);
             }
 
+            // should print 6
+            console.log(heatMapData[1].weight);
+
             var heatmap = new google.maps.visualization.HeatmapLayer({
               data: heatMapData
             });
             heatmap.setMap(map);
-          
+
           }
 
           // should print 6
