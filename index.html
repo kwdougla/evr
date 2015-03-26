@@ -182,7 +182,8 @@
       <h3 style="color:#F58025"> Interactive Arrival Rate Heat Map </h3>
 
       <form name=myForm METHOD=GET style="color:#FFFFFF">
-      <select name=Hourl>Left:
+      Left:
+      <select name=Hourl>
         <option value=0>12</option><option value=1>1</option><option value=2>2</option><option value=3>3</option><option value=4>4</option><option value=5>5</option><option value=6>6</option><option value=7>7</option><option value=8>8</option><option value=9>9</option><option value=10>10</option><option value=11>11</option>
       </select>
       <select name=Minl>
@@ -191,7 +192,8 @@
       <select name=Modl>
         <option value=0>AM</option><option value=1>PM</option>
       </select>
-      <select name=Hourr>          Right:
+                Right:
+      <select name=Hourr>
         <option value=0>12</option><option value=1>1</option><option value=2>2</option><option value=3>3</option><option value=4>4</option><option value=5>5</option><option value=6>6</option><option value=7>7</option><option value=8>8</option><option value=9>9</option><option value=10>10</option><option value=11>11</option>
       </select>
       <select name=Minr>
@@ -203,8 +205,8 @@
       <p>
       <!-- Time (hhm0): <input type=text name=Time size=4> <p> -->
       Left Arrival Type: <input type=radio name=Typel value="indiv"> Individuals
-                    <input type=radio name=Typel value="units" checked=checked> "Departure Units"
-                Right Arrival Type: <input type=radio name=Typer value="indiv"> Individuals
+                    <input type=radio name=Typel value="units" checked=checked> "Departure Units"          Right
+                Arrival Type: <input type=radio name=Typer value="indiv"> Individuals
                     <input type=radio name=Typer value="units" checked=checked> "Departure Units"
       <p>
       <!-- <input type=submit> -->
