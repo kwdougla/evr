@@ -100,9 +100,11 @@
               //console.log(heatMapData[i].weight);
             }
 
+            var diss = true;
+
             var heatmap = new google.maps.visualization.HeatmapLayer({
               data: heatMapData,
-              dissipating: false,
+              dissipating: diss,
               maxIntensity: typ==="indiv" ? 1000 : 300
             });
             heatmap.setMap(map);
