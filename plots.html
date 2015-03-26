@@ -20,33 +20,35 @@
         // $(document).ready(function(){
         //   $("button").click(function(){
 
-            // Get submitted parameters.
-            var params = {};
+        // Get submitted parameters.
+        var params = {};
 
-            if (location.search) {
-                var parts = location.search.substring(1).split('&');
+        if (location.search) {
+            var parts = location.search.substring(1).split('&');
 
-                for (var i = 0; i < parts.length; i++) {
-                    var nv = parts[i].split('=');
-                    params[i] = nv[1];
-                }
+            for (var i = 0; i < parts.length; i++) {
+                var nv = parts[i].split('=');
+                params[i] = nv[1];
             }
-            
-            var x   = params[0];
-            var y   = params[1];
-            var typ = params[2];
+        }
+        
+        var x   = params[0];
+        var y   = params[1];
+        var typ = params[2];
 
-            document.myForm.oX = x;
-            document.myForm.oY = y;
-            document.myForm.Type = typ;
+        document.myForm.oX = x;
+        document.myForm.oY = y;
+        document.myForm.Type = typ;
 
-            var str1 = "_png/";
-            var str2 = ",";
-            var str3 = ".png"
+        var str1 = "_png/";
+        var str2 = ",";
+        var str3 = ".png"
 
-            var final_str = "./"+((((typ.concat(str1)).concat(x)).concat(str2)).concat(y)).concat(str3);
+        var final_str = "./" + typ + str1 + x + str2 + y + str3;
+        
+        // var final_str = "./"+((((typ.concat(str1)).concat(x)).concat(str2)).concat(y)).concat(str3);
 
-            $("#myImg").attr("src",final_str);
+        $("#myImg").attr("src",final_str);
 
         //   });
         // });
