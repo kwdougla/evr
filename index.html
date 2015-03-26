@@ -105,6 +105,7 @@
               var oX = data[0];
               var oY = data[1];
               heatMapData.push({location: new google.maps.LatLng(38.9+parseInt(oY)/138.2, -75.6+parseInt(oX)/108.907), weight: data[2+72*ampm+6*hrs+mins]});
+              console.log(i);
               console.log(data[2+72*ampm+6*hrs+mins]);
             }
           }
