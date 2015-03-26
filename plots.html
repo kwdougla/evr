@@ -66,6 +66,8 @@
 
           // Change image and auto fields.
           $("#myImg").attr("src",final_str);
+          $("#text_oX").attr("value",x);
+          $("#text_oY").attr("value",y);
           $("#type_"+typ).attr("checked","checked");
 
           var myLatlng = new google.maps.LatLng(38.9+parseInt(y)/138.2, -75.6+parseInt(x)/108.907);
@@ -107,8 +109,8 @@
     <center>
     <h3 style="color:#F58025"> Interactive Arrival Rate Plots </h3>
     <form name=myForm METHOD=GET style="color:#FFFFFF">
-    X: <input type=text name=oX size=2>
-    Y: <input type=text name=oY size=2> <p>
+    X: <input id="text_oX" type=text name=oX size=2>
+    Y: <input id="text_oY" type=text name=oY size=2> <p>
     <!-- Time (hhm0): <input type=text name=Time size=4> <p> -->
     Arrival Type: <input id="type_indiv" type=radio name=Type value="indiv"> Individuals
                   <input id="type_units" type=radio name=Type value="units"> "Departure Units"
