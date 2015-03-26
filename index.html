@@ -28,35 +28,33 @@
         var map = new google.maps.Map(document.getElementById('map-canvas'),
             mapOptions);
 
-        // Get submitted parameters.
-        var params = {};
-
+        // If anything is plotted:
         if (location.search) {
-          console.log("YOU HIT ME!")
+
+          // Get submitted parameters.
+          var params = {};
+
           var parts = location.search.substring(1).split('&');
 
           for (var i = 0; i < parts.length; i++) {
             var nv = parts[i].split('=');
             params[i] = nv[1];
           }
-        }
-        console.log("def hit me");
-        console.log(location.search);
         
-        var hrs  = parseInt(params[0]);
-        var mins = parseInt(params[1]);
-        var ampm = parseInt(params[2]);
-        var typ  = params[3];
-        var typfile = typ+".csv";
-        console.log(typ);
 
-        //var hrs = location.search.split('Hour=')[1]
-        //var mins = document.forms["myForm"]["Min"].value;
-        //var ampm = document.forms["myForm"]["Mod"].value;
-        //var typ  = document.forms["myForm"]["Type"].value;
+          var hrs  = parseInt(params[0]);
+          var mins = parseInt(params[1]);
+          var ampm = parseInt(params[2]);
+          var typ  = params[3];
+          var typfile = typ+".csv";
+          console.log(typ);
 
-        // Plot Pixel polygons.
-        if (typeof hrs != 'undefined') {
+          //var hrs = location.search.split('Hour=')[1]
+          //var mins = document.forms["myForm"]["Min"].value;
+          //var ampm = document.forms["myForm"]["Mod"].value;
+          //var typ  = document.forms["myForm"]["Type"].value;
+
+          // Plot Pixel polygons.
 
           // var pixel;
 
