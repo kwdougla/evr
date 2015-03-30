@@ -104,16 +104,19 @@
 
             for (var i = 0; i < allTextLines.length; i++) {
               var data = allTextLines[i].split(',');
-              var oY = data[0];
-              var oX = data[1];
-              heatMapData[i] = {location: new google.maps.LatLng(38.9+parseInt(oY)/138.2, -75.6+parseInt(oX)/108.907), weight: data[2+72*ampm+6*hrs+mins]};
+              if (data[2+72*ampm+6*hrs+mins] >= min_requests) {
+                var oY = data[0];
+                var oX = data[1];
+                heatMapData[i] = {location: new google.maps.LatLng(38.9+parseInt(oY)/138.2, -75.6+parseInt(oX)/108.907), weight: data[2+72*ampm+6*hrs+mins]};
+              }
             }
 
             var heatmap = new google.maps.visualization.HeatmapLayer({
               data: heatMapData,
               dissipating: true,
-              maxIntensity: typ==="indiv" ? 1000 : 300
+              maxIntensity: max_requests
             });
+            // maxIntensity: typ==="indiv" ? 1000 : 300
             heatmap.setMap(map);
 
           }
