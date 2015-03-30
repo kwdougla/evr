@@ -9,11 +9,11 @@
       #info-box {
       background-color: white;
       border: 5px #F58025;
-      bottom: 100px;
+      bottom: 50px;
       height: 20px;
       padding: 10px;
       position: absolute;
-      right: 100px;
+      right: 50px;
     }
     </style>
 
@@ -35,7 +35,24 @@
         var map = new google.maps.Map(document.getElementById('map-canvas'),
             mapOptions);
 
-        // Load my GeoJSON.
+        // Load and parse my GeoJSON. (Created using my CreatePixelsJSON.java.)
+        map.data.loadGeoJson('kwdougla.github.io/pixels.json');
+
+        // Add style.
+        map.data.setStyle(function(feature) {
+          return /** @type {google.maps.Data.StyleOptions} */({
+            geodesic: true,
+            strokeColor: '#000000',
+            strokeOpacity: 0.5,
+            strokeWeight: 1
+          });
+        });
+
+        // Set mouseover event for each feature.
+        map.data.addListener('mouseover', function(event) {
+          document.getElementById('info-box').textContent =
+              event.feature.getProperty('cds');
+        });
 
         // If anything is plotted:
         if (location.search) {
