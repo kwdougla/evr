@@ -44,12 +44,16 @@
           var ampm = parseInt(params[2]);
           var typ  = params[3];
           var typfile = typ+".csv";
+          var max_requests = parseInt(params[4]);
+          var min_requests = parseInt(params[5]);
 
           // Change auto fields.
           $("#h_"+params[0]).attr("selected","selected");
           $("#m_"+params[1]).attr("selected","selected");
           $("#mod_"+params[2]).attr("selected","selected");
           $("#type_"+typ).attr("checked","checked");
+          $("#text_min").attr("value",params[4]);
+          $("#text_max").attr("value",params[5]);
 
           //var hrs = location.search.split('Hour=')[1]
           //var mins = document.forms["myForm"]["Min"].value;
@@ -123,7 +127,7 @@
   <body bgcolor="4C4646">
 
     <center>
-    <h3 style="color:#F58025"> Interactive Arrival Rate Heat Map </h3>
+    <h3 style="color:#F58025"> Interactive Demand Request Rate Heat Map </h3>
     <form name=myForm METHOD=GET style="color:#FFFFFF">
     <select name=Hour>
       <option id="h_0" value=0>12</option><option id="h_1" value=1>1</option><option id="h_2" value=2>2</option><option id="h_3" value=3>3</option><option id="h_4" value=4>4</option><option id="h_5" value=5>5</option><option id="h_6" value=6>6</option><option id="h_7" value=7>7</option><option id="h_8" value=8>8</option><option id="h_9" value=9>9</option><option id="h_10" value=10>10</option><option id="h_11" value=11>11</option>
@@ -135,14 +139,16 @@
       <option id="mod_0" value=0>AM</option><option id="mod_1" value=1>PM</option>
     </select> <p>
     <!-- Time (hhm0): <input type=text name=Time size=4> <p> -->
-    Arrival Type: <input id="type_indiv" type=radio name=Type value="indiv"> Individuals
+    Demand Request Type: <input id="type_indiv" type=radio name=Type value="indiv"> Individuals
                   <input id="type_units" type=radio name=Type value="units" checked=checked> "Departure Units"
     <p>
+    Min. Demand Requests: <input id="text_min" type=text name=mininput size=4 value="0">
+    Max. Demand Requests: <input id="text_max" type=text name=maxinput size=4 value="9999">
     <!-- <input type=submit> -->
     <button>Plot</button>
     
     <br><br>
-    <a href="plots.html?oX=125&oY=65&Type=overlay" style="color: #52D017">Go to Interactive Arrival Rate Plots</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index2.html" style="color: #52D017">** 2 Maps **</a>
+    <a href="plots.html?oX=125&oY=65&Type=overlay" style="color: #52D017">Go to Interactive Demand Request Rate Plots</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index2.html" style="color: #52D017">** 2 Maps **</a>
     </center>
 
     <div id="map-canvas" style="width: 50%; height: 75%; margin:0 auto"></div>
