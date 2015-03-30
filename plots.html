@@ -59,6 +59,17 @@
               event.feature.getProperty('cds');
         });
 
+        // Set click event for each feature.
+        map.data.addListener('click', function(event) {
+          var two_parts = (event.feature.getProperty('cds')).split(',');
+          var x_str = two_parts[0].substring(1);
+          var y_str = two_parts[1].slice(0,-1);
+          $("#myImg").attr("src","./overlay_png/"+x_str+","+y_str+".png");
+          $("#text_oX").attr("value",x_str);
+          $("#text_oY").attr("value",y_str);
+          $("#type_overlay").attr("checked","checked");
+        });
+
         // document.getElementById("finalname").innerHTML = final_str;
         // $("#myImg").attr("src",final_str);
 
