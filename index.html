@@ -41,10 +41,11 @@
         // Add style.
         map.data.setStyle(function(feature) {
           return /** @type {google.maps.Data.StyleOptions} */({
-            geodesic: true,
             strokeColor: '#000000',
             strokeOpacity: 0.5,
-            strokeWeight: 1
+            strokeWeight: 1,
+            fillColor: '#FF0000',
+            fillOpacity: 0
           });
         });
 
