@@ -105,10 +105,10 @@
             // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
             for (var i = 0; i < allTextLines.length; i++) {
               var data = allTextLines[i].split(',');
-              if ((data[2+72*ampm+6*hrs+mins] >= 6*min_requests) && (data[2+72*ampm+6*hrs+mins] <= 6*max_requests)) {
+              if (data[2+72*ampm+6*hrs+mins] >= 6*min_requests) {
                 var oY = data[0];
                 var oX = data[1];
-                heatMapData[i] = {location: new google.maps.LatLng(38.9+parseInt(oY)/138.2, -75.6+parseInt(oX)/108.907), weight: data[2+72*ampm+6*hrs+mins]};
+                heatMapData[i] = {location: new google.maps.LatLng(38.9+parseInt(oY)/138.2, -75.6+parseInt(oX)/108.907), weight: (data[2+72*ampm+6*hrs+mins] <= 6*max_requests) ? data[2+72*ampm+6*hrs+mins] : 6*max_requests};
               }
             }
             
