@@ -90,11 +90,11 @@
 
         // Set mouseover event for each feature.
         map1.data.addListener('mouseover', function(event) {
-          document.getElementById('info-box').textContent =
+          document.getElementById('info-box1').textContent =
               event.feature.getProperty('cds');
         });
         map2.data.addListener('mouseover', function(event) {
-          document.getElementById('info-box').textContent =
+          document.getElementById('info-box2').textContent =
               event.feature.getProperty('cds');
         });
 
@@ -254,7 +254,7 @@
     <!-- <div id="header"> -->
     <center>
 
-      <h3 style="color:#F58025"> Interactive Demand Request Rate Heat Map </h3>
+      <h3 style="color:#F58025"> 2 Interactive Demand Request Rate Heat Maps </h3>
 
       <form name=myForm METHOD=GET style="color:#FFFFFF">
       Left:
