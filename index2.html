@@ -69,6 +69,10 @@
           var typ2  = params[7];
           var typfile1 = typ1+".csv";
           var typfile2 = typ1+".csv";
+          var min_requests_left  = parseInt(params[8]);
+          var max_requests_left  = parseInt(params[9]);
+          var min_requests_right = parseInt(params[10]);
+          var max_requests_right = parseInt(params[11]);
 
           // Change auto fields.
           $("#hl_"+params[0]).attr("selected","selected");
@@ -79,6 +83,11 @@
           $("#mr_"+params[4]).attr("selected","selected");
           $("#modr_"+params[5]).attr("selected","selected");
           $("#typer_"+typ2).attr("checked","checked");
+          $("#textl_min").attr("value",params[8]);
+          $("#textl_max").attr("value",params[9]);
+          $("#textr_min").attr("value",params[10]);
+          $("#textr_max").attr("value",params[11]);
+
 
           //var hrs = location.search.split('Hour=')[1]
           //var mins = document.forms["myForm"]["Min"].value;
@@ -136,18 +145,23 @@
             var allTextLines = allText.split(/\r\n|\n/);
             var lines = [];
 
+            // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
             for (var i = 0; i < allTextLines.length; i++) {
               var data = allTextLines[i].split(',');
-              var oY = data[0];
-              var oX = data[1];
-              heatMapData1[i] = {location: new google.maps.LatLng(38.9+parseInt(oY)/138.2, -75.6+parseInt(oX)/108.907), weight: data[2+72*ampm1+6*hrs1+mins1]};
+              if (data[2+72*ampm1+6*hrs1+mins1] >= 6*min_requests_left) {
+                var oY = data[0];
+                var oX = data[1];
+                heatMapData1[i] = {location: new google.maps.LatLng(38.9+parseInt(oY)/138.2, -75.6+parseInt(oX)/108.907), weight: data[2+72*ampm1+6*hrs1+mins1]};
+              }
             }
 
+            // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
             var heatmap1 = new google.maps.visualization.HeatmapLayer({
               data: heatMapData1,
               dissipating: true,
-              maxIntensity: typ1==="indiv" ? 1000 : 300
+              maxIntensity: 6*max_requests_left
             });
+            // maxIntensity: typ1==="indiv" ? 1000 : 300
             heatmap1.setMap(map1);
           }
 
@@ -155,18 +169,23 @@
             var allTextLines = allText.split(/\r\n|\n/);
             var lines = [];
 
+            // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
             for (var i = 0; i < allTextLines.length; i++) {
               var data = allTextLines[i].split(',');
-              var oY = data[0];
-              var oX = data[1];
-              heatMapData2[i] = {location: new google.maps.LatLng(38.9+parseInt(oY)/138.2, -75.6+parseInt(oX)/108.907), weight: data[2+72*ampm2+6*hrs2+mins2]};
+              if (data[2+72*ampm2+6*hrs2+mins2] >= 6*min_requests_right) {
+                var oY = data[0];
+                var oX = data[1];
+                heatMapData2[i] = {location: new google.maps.LatLng(38.9+parseInt(oY)/138.2, -75.6+parseInt(oX)/108.907), weight: data[2+72*ampm2+6*hrs2+mins2]};
+              }
             }
 
+            // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
             var heatmap2 = new google.maps.visualization.HeatmapLayer({
               data: heatMapData2,
               dissipating: true,
-              maxIntensity: typ2==="indiv" ? 1000 : 300
+              maxIntensity: 6*max_requests_right
             });
+            // maxIntensity: typ1==="indiv" ? 1000 : 300
             heatmap2.setMap(map2);
           }
         }
@@ -213,11 +232,19 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Right Demand Request Type: <input id="typer_indiv" type=radio name=Typer value="indiv"> Individuals
                     <input id="typer_units" type=radio name=Typer value="units" checked=checked> "Departure Units"
       <p>
+      Left Min. Demand: <input id="textl_min" type=text name=minl size=3 value="0">
+      &nbsp;&nbsp;&nbsp;
+      Left Max. Demand: <input id="textl_max" type=text name=maxl size=3 value="9999">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <!-- <input type=submit> -->
       <button>Plot</button>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      Right Min. Demand: <input id="textr_min" type=text name=minr size=3 value="0">
+      &nbsp;&nbsp;&nbsp;
+      Right Max. Demand: <input id="textr_max" type=text name=maxr size=3 value="9999">
 
       <br><br>
-      <a href="plots.html?oX=125&oY=65&Type=overlay" style="color: #52D017">Go to Interactive Demand Request Rate Plots</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html" style="color: #52D017">* 1 Map *</a>
+      <a href="plots.html?oX=125&oY=65&Type=overlay" style="color: #52D017">Go to Interactive Plots</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index.html" style="color: #52D017">* 1 Map *</a>
 
     </center>
     
