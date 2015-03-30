@@ -16,6 +16,24 @@
         margin: 0;
         padding: 0;
     }
+    #info-box1 {
+      background-color: white;
+      border: 5px solid black;
+      bottom: 50px;
+      height: 20px;
+      padding: 10px;
+      position: absolute;
+      left: 50px;
+    }
+    #info-box2 {
+      background-color: white;
+      border: 5px solid black;
+      bottom: 50px;
+      height: 20px;
+      padding: 10px;
+      position: absolute;
+      right: 50px;
+    }
     </style>
     <!-- #header {
         padding:5px;
@@ -45,6 +63,40 @@
             mapOptions);
         var map2 = new google.maps.Map(document.getElementById('map-canvas2'),
             mapOptions);
+
+        // Load and parse my GeoJSON. (Created using my CreatePixelsJSON.java.)
+        map1.data.loadGeoJson('pixelsmini.json');
+        map2.data.loadGeoJson('pixelsmini.json');
+
+        // Add style.
+        map1.data.setStyle(function(feature) {
+          return /* @type {google.maps.Data.StyleOptions} */ ({
+            strokeColor: '#000000',
+            strokeOpacity: 0.08,
+            strokeWeight: 1,
+            fillColor: '#FF0000',
+            fillOpacity: 0
+          });
+        });
+        map2.data.setStyle(function(feature) {
+          return /* @type {google.maps.Data.StyleOptions} */ ({
+            strokeColor: '#000000',
+            strokeOpacity: 0.08,
+            strokeWeight: 1,
+            fillColor: '#FF0000',
+            fillOpacity: 0
+          });
+        });
+
+        // Set mouseover event for each feature.
+        map1.data.addListener('mouseover', function(event) {
+          document.getElementById('info-box').textContent =
+              event.feature.getProperty('cds');
+        });
+        map2.data.addListener('mouseover', function(event) {
+          document.getElementById('info-box').textContent =
+              event.feature.getProperty('cds');
+        });
 
         // If anything is plotted:
         if (location.search) {
@@ -256,6 +308,8 @@
       <div id="map-canvas2" style="margin-left: 50%; height: 100%; margin: 0px"></div>
       <!-- <br style="clear:both;"/> -->
     </div>
+    <div id="info-box1">Left Hover</div>
+    <div id="info-box2">Right Hover</div>
 
     <!-- <div id="footer"> -->
     <center>
