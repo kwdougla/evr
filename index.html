@@ -26,6 +26,8 @@
         var map = new google.maps.Map(document.getElementById('map-canvas'),
             mapOptions);
 
+        // Load my GeoJSON.
+
         // If anything is plotted:
         if (location.search) {
 
@@ -108,7 +110,7 @@
               if (data[2+72*ampm+6*hrs+mins] >= 6*min_requests) {
                 var oY = data[0];
                 var oX = data[1];
-                heatMapData[i] = {location: new google.maps.LatLng(38.9+parseInt(oY)/138.2, -75.6+parseInt(oX)/108.907), weight: (data[2+72*ampm+6*hrs+mins] <= 6*max_requests) ? data[2+72*ampm+6*hrs+mins] : 6*max_requests};
+                heatMapData[i] = {location: new google.maps.LatLng(38.9+(0.5+parseInt(oY))/138.2, -75.6+(0.5+parseInt(oX))/108.907), weight: (data[2+72*ampm+6*hrs+mins] <= 6*max_requests) ? data[2+72*ampm+6*hrs+mins] : 6*max_requests};
               }
             }
             
@@ -122,6 +124,10 @@
             heatmap.setMap(map);
 
           }
+
+          google.maps.event.addListener(marker, 'click', function() {
+            infowindow.open(map,marker);
+          });
         }
 
         // google.maps.event.addListener(marker, 'click', function() {

@@ -151,7 +151,7 @@
               if (data[2+72*ampm1+6*hrs1+mins1] >= 6*min_requests_left) {
                 var oY = data[0];
                 var oX = data[1];
-                heatMapData1[i] = {location: new google.maps.LatLng(38.9+parseInt(oY)/138.2, -75.6+parseInt(oX)/108.907), weight: (data[2+72*ampm1+6*hrs1+mins1] <= 6*max_requests_left) ? data[2+72*ampm1+6*hrs1+mins1] : 6*max_requests_left};
+                heatMapData1[i] = {location: new google.maps.LatLng(38.9+(0.5+parseInt(oY))/138.2, -75.6+(0.5+parseInt(oX))/108.907), weight: (data[2+72*ampm1+6*hrs1+mins1] <= 6*max_requests_left) ? data[2+72*ampm1+6*hrs1+mins1] : 6*max_requests_left};
               }
             }
             
@@ -175,7 +175,7 @@
               if (data[2+72*ampm2+6*hrs2+mins2] >= 6*min_requests_right) {
                 var oY = data[0];
                 var oX = data[1];
-                heatMapData2[i] = {location: new google.maps.LatLng(38.9+parseInt(oY)/138.2, -75.6+parseInt(oX)/108.907), weight: (data[2+72*ampm2+6*hrs2+mins2] <= 6*max_requests_right) ? data[2+72*ampm2+6*hrs2+mins2] : 6*max_requests_right};
+                heatMapData2[i] = {location: new google.maps.LatLng(38.9+(0.5+parseInt(oY))/138.2, -75.6+(0.5+parseInt(oX))/108.907), weight: (data[2+72*ampm2+6*hrs2+mins2] <= 6*max_requests_right) ? data[2+72*ampm2+6*hrs2+mins2] : 6*max_requests_right};
               }
             }
             
