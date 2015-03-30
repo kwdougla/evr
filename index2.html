@@ -154,13 +154,13 @@
                 heatMapData1[i] = {location: new google.maps.LatLng(38.9+parseInt(oY)/138.2, -75.6+parseInt(oX)/108.907), weight: (data[2+72*ampm1+6*hrs1+mins1] <= 6*max_requests_left) ? data[2+72*ampm1+6*hrs1+mins1] : 6*max_requests_left};
               }
             }
-
-            // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
+            
             var heatmap1 = new google.maps.visualization.HeatmapLayer({
               data: heatMapData1,
-              dissipating: true,
-              maxIntensity: 6*max_requests_left
+              dissipating: true
             });
+            // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
+            // maxIntensity: 6*max_requests_left
             // maxIntensity: typ1==="indiv" ? 1000 : 300
             heatmap1.setMap(map1);
           }
