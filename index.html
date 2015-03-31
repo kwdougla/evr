@@ -46,7 +46,7 @@
             strokeColor: '#000000',
             strokeOpacity: 0.08,
             strokeWeight: 1,
-            fillColor: '#FF0000',
+            fillColor: '#842DCE',
             fillOpacity: 0
           });
         });
@@ -55,7 +55,7 @@
         map.data.addListener('mouseover', function(event) {
           document.getElementById('info-box').textContent =
               event.feature.getProperty('cds');
-          map.data.overrideStyle(event.feature, {fillColor: '#842DCE'});
+          map.data.overrideStyle(event.feature, {fillOpacity: 0.5});
         });
 
         map.data.addListener('mouseout', function(event) {
