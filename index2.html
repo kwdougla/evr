@@ -74,7 +74,7 @@
             strokeColor: '#000000',
             strokeOpacity: 0.08,
             strokeWeight: 1,
-            fillColor: '#FF0000',
+            fillColor: '#842DCE',
             fillOpacity: 0
           });
         });
@@ -83,7 +83,7 @@
             strokeColor: '#000000',
             strokeOpacity: 0.08,
             strokeWeight: 1,
-            fillColor: '#FF0000',
+            fillColor: '#842DCE',
             fillOpacity: 0
           });
         });
@@ -91,11 +91,21 @@
         // Set mouseover event for each feature.
         map1.data.addListener('mouseover', function(event) {
           document.getElementById('info-box1').textContent =
-              event.feature.getProperty('cds');
+            event.feature.getProperty('cds');
+          map1.data.overrideStyle(event.feature, {strokeColor: '#571B7E', strokeOpacity: 0.75, strokeWeight: 3, fillOpacity: 0.4});
         });
         map2.data.addListener('mouseover', function(event) {
           document.getElementById('info-box2').textContent =
-              event.feature.getProperty('cds');
+            event.feature.getProperty('cds');
+          map2.data.overrideStyle(event.feature, {strokeColor: '#571B7E', strokeOpacity: 0.75, strokeWeight: 3, fillOpacity: 0.4});
+        });
+
+        // Set mouseout event for each feature,
+        map1.data.addListener('mouseout', function(event) {
+          map1.data.revertStyle();
+        });
+        map2.data.addListener('mouseout', function(event) {
+          map2.data.revertStyle();
         });
 
         // If anything is plotted:

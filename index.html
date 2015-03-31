@@ -54,10 +54,11 @@
         // Set mouseover event for each feature.
         map.data.addListener('mouseover', function(event) {
           document.getElementById('info-box').textContent =
-              event.feature.getProperty('cds');
-          map.data.overrideStyle(event.feature, {strokeColor: '#571B7E', strokeOpacity: 0.75, strokeWeight: 2, fillOpacity: 0.5});
+            event.feature.getProperty('cds');
+          map.data.overrideStyle(event.feature, {strokeColor: '#571B7E', strokeOpacity: 0.75, strokeWeight: 3, fillOpacity: 0.4});
         });
 
+        // Set mouseout event for each feature,
         map.data.addListener('mouseout', function(event) {
           map.data.revertStyle();
         });
