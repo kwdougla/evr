@@ -67,9 +67,7 @@
           var lines = [];
           for (var i = 0; i < allTextLines.length; i++) {
             var data = allTextLines[i].split(',');
-            for (var j = 0; j < data.length; j++) {
-              heatMapDataIndiv[i][j] = data[j];
-            }
+            heatMapDataIndiv[i] = data;
           }
         }
 
@@ -80,9 +78,7 @@
           var lines = [];
           for (var i = 0; i < allTextLines.length; i++) {
             var data = allTextLines[i].split(',');
-            for (var j = 0; j < data.length; j++) {
-              heatMapDataUnits[i][j] = data[j];
-            }
+            heatMapDataUnits[i] = data;
           }
         }
 
