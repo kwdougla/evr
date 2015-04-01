@@ -177,6 +177,7 @@
           // Add style.
           map.data.setStyle(function(feature) {
             var i = parseInt(feature.getProperty('p'));
+            console.log(rainbow.colourAt(heatMapDataUnits[i][2+72*ampm+6*hrs+mins]));
             return /* @type {google.maps.Data.StyleOptions} */ ({
               strokeWeight: 0,
               fillColor: '#' + (heatMapDataUnits[i][2+72*ampm+6*hrs+mins] <= 6*max_requests) ? rainbow.colourAt(heatMapDataUnits[i][2+72*ampm+6*hrs+mins]) : 6*max_requests,
@@ -201,7 +202,7 @@
         // // maxIntensity: typ1==="indiv" ? 1000 : 300
         // heatmap.setMap(map);
 
-        document.getElementById('info-box').textContent = "Done";
+        document.getElementById('info-box').textContent = "Plotted";
       }
 
       // Replaces <body onload="initialize">.
