@@ -153,29 +153,21 @@
         // rainbow.setSpectrum('#0000FF', '#FF0000');
         rainbow.setSpectrum('blue', 'green', 'red');
 
+        // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
         // Pre-populate relevant array of the desired "demand requests."
         var data = [];
-
-        // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
+        var max_data = 0;
+        var min_data = Infinity;
         if (typ === "indiv") {
-          // Add style.
-          map.data.setStyle(function(feature) {
-            var i = parseInt(feature.getProperty('p'));
-            if (heatMapDataIndiv[i][2+72*ampm+6*hrs+mins] >= 6*min_requests) {
-              var col = '#' + rainbow.colourAt((heatMapDataIndiv[i][2+72*ampm+6*hrs+mins] <= 6*max_requests) ? heatMapDataIndiv[i][2+72*ampm+6*hrs+mins] : 6*max_requests);
-              return /* @type {google.maps.Data.StyleOptions} */ ({
-                strokeColor: '#000000',
-                strokeOpacity: 0,
-                strokeWeight: 0,
-                fillColor: col,
-                fillOpacity: 0.4
-              });
-            }
-          });
+          for (var i = 0; i < heatMapDataIndiv.length; i++) {
+            data[i] = heatMapDataIndiv[i][2+72*ampm+6*hrs+mins];
+            if (data[i] > max_data)
+              max_data = data[i];
+            if (data[i] < min_data)
+              min_data = data[i];
+          }
         }
         else {
-          var max_data = 0;
-          var min_data = Infinity;
           for (var i = 0; i < heatMapDataUnits.length; i++) {
             data[i] = heatMapDataUnits[i][2+72*ampm+6*hrs+mins];
             if (data[i] > max_data)
@@ -183,19 +175,19 @@
             if (data[i] < min_data)
               min_data = data[i];
           }
-          var true_min = Math.max(min_data,min_requests*6);
-          var true_max = Math.min(max_data,max_requests*6);
-          rainbow.setNumberRange(true_min,true_max);
-          // Add style.
-          map.data.setStyle(function(feature) {
-            var i = parseInt(feature.getProperty('p'));
-            return /* @type {google.maps.Data.StyleOptions} */ ({
-              strokeWeight: 0,
-              fillColor: '#' + ((data[i] <= true_max) ? rainbow.colourAt(data[i]) : rainbow.colourAt(true_max)),
-              fillOpacity: (data[i] >= 6*min_requests) ? 0.4 : 0
-            });
-          });
         }
+        var true_min = Math.max(min_data,min_requests*6);
+        var true_max = Math.min(max_data,max_requests*6);
+        rainbow.setNumberRange(true_min,true_max);
+        // Add style.
+        map.data.setStyle(function(feature) {
+          var i = parseInt(feature.getProperty('p'));
+          return /* @type {google.maps.Data.StyleOptions} */ ({
+            strokeWeight: 0,
+            fillColor: '#' + ((data[i] <= true_max) ? rainbow.colourAt(data[i]) : rainbow.colourAt(true_max)),
+            fillOpacity: (data[i] >= 6*min_requests) ? 0.4 : 0
+          });
+        });
 
         // // Remove existing heat map, if one exists. Then plot new one.
         // if (plotted) {
