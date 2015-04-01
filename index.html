@@ -33,7 +33,7 @@
       var heatMapDataIndiv = [];  // 1st 2 col oY, oX, rest # "demand requests"
       var heatMapDataUnits = [];  // 1st 2 col oY, oX, rest # "demand requests"
       console.log("outside");
-      console.log(heatMapDataIndiv);
+      console.log(heatMapDataUnits);
 
       // ----- FUNCTION initialize() -------------------------------------
 
@@ -41,7 +41,7 @@
       function initialize() {
 
         console.log("in initialize");
-        console.log(heatMapDataIndiv);
+        console.log(heatMapDataUnits);
 
         // Read in and process data.
         $(document).ready(function() {
@@ -74,6 +74,8 @@
         }
 
         function processDataUnits(allText) {
+          console.log("in process");
+          console.log(heatMapDataUnits);
           var allTextLines = allText.split(/\r\n|\n/);
           var lines = [];
           for (var i = 0; i < allTextLines.length; i++) {
