@@ -31,6 +31,7 @@
 
       var map;                    // map on display
       var heatmap;                // heat map layer
+      var plotted = false;        // has there been at least one plot yet?
       var heatMapDataIndiv = [];  // 1st 2 col oY, oX, rest # "demand requests"
       var heatMapDataUnits = [];  // 1st 2 col oY, oX, rest # "demand requests"
 
@@ -116,8 +117,13 @@
 
       function plotMe() {
 
-        // Remove existing heat map.
-        heatmap.setMap(null);
+        // Remove existing heat map, if one exists.
+        if (plotted) {
+          heatmap.setMap(null);
+        }
+        else {
+          plotted = true;
+        }
 
         document.getElementById('info-box').textContent = "Working...";
 
