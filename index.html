@@ -189,8 +189,6 @@
           // Add style.
           map.data.setStyle(function(feature) {
             var i = parseInt(feature.getProperty('p'));
-            console.log(rainbow.colourAt(data[i]));
-            console.log('#' + ((data[i] <= true_max) ? rainbow.colourAt(data[i]) : rainbow.colourAt(true_max)));
             return /* @type {google.maps.Data.StyleOptions} */ ({
               strokeWeight: 0,
               fillColor: '#' + ((data[i] <= true_max) ? rainbow.colourAt(data[i]) : rainbow.colourAt(true_max)),
