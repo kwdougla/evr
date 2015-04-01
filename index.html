@@ -130,9 +130,6 @@
 
       function plotMe() {
 
-        console.log("in plotMe()");
-        console.log(heatMapDataUnits);
-
         document.getElementById('info-box').textContent = "Working...";
 
         // Get submitted parameters.
@@ -179,10 +176,6 @@
         else {
           // Add style.
           map.data.setStyle(function(feature) {
-
-            console.log("in else");
-            console.log(heatMapDataUnits);
-
             var i = parseInt(feature.getProperty('p'));
             console.log(i);
             if (heatMapDataUnits[i][2+72*ampm+6*hrs+mins] >= 6*min_requests) {
