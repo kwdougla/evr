@@ -32,12 +32,16 @@
       var map;                      // map on display
       var heatMapDataIndiv = [];  // 1st 2 col oY, oX, rest # "demand requests"
       var heatMapDataUnits = [];  // 1st 2 col oY, oX, rest # "demand requests"
+      console.log("outside");
       console.log(heatMapDataIndiv);
 
       // ----- FUNCTION initialize() -------------------------------------
 
       // All necessary loading upon startup.
       function initialize() {
+
+        console.log("in initialize");
+        console.log(heatMapDataIndiv);
 
         // Read in and process data.
         $(document).ready(function() {
