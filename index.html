@@ -38,14 +38,14 @@
             mapOptions);
 
         // Load and parse my GeoJSON. (Created using my CreatePixelsJSON.java.)
-        map.data.loadGeoJson('pixelsmini.json');
+        map.data.loadGeoJson('pixels.json');
 
         // Add style.
         map.data.setStyle(function(feature) {
           return /* @type {google.maps.Data.StyleOptions} */ ({
             strokeColor: '#000000',
-            strokeOpacity: 0.08,
-            strokeWeight: 1,
+            strokeOpacity: 0,
+            strokeWeight: 0,
             fillColor: '#842DCE',
             fillOpacity: 0
           });
@@ -55,7 +55,7 @@
         map.data.addListener('mouseover', function(event) {
           document.getElementById('info-box').textContent =
             event.feature.getProperty('cds');
-          map.data.overrideStyle(event.feature, {strokeColor: '#571B7E', strokeOpacity: 0.75, strokeWeight: 3, fillOpacity: 0.4});
+          map.data.overrideStyle(event.feature, {strokeColor: '#000000', strokeOpacity: 0.75, strokeWeight: 3});
         });
 
         // Set mouseout event for each feature,
@@ -63,113 +63,83 @@
           map.data.revertStyle();
         });
 
-        // If anything is plotted:
-        if (location.search) {
-
-          // Get submitted parameters.
-          var params = {};
-
-          var parts = location.search.substring(1).split('&');
-
-          for (var i = 0; i < parts.length; i++) {
-            var nv = parts[i].split('=');
-            params[i] = nv[1];
-          }
-        
-          var hrs  = parseInt(params[0]);
-          var mins = parseInt(params[1]);
-          var ampm = parseInt(params[2]);
-          var typ  = params[3];
-          var typfile = typ+".csv";
-          var min_requests = parseInt(params[4]);
-          var max_requests = parseInt(params[5]);
-
-          // Change auto fields.
-          $("#h_"+params[0]).attr("selected","selected");
-          $("#m_"+params[1]).attr("selected","selected");
-          $("#mod_"+params[2]).attr("selected","selected");
-          $("#type_"+typ).attr("checked","checked");
-          $("#text_min").attr("value",params[4]);
-          $("#text_max").attr("value",params[5]);
-
-          //var hrs = location.search.split('Hour=')[1]
-          //var mins = document.forms["myForm"]["Min"].value;
-          //var ampm = document.forms["myForm"]["Mod"].value;
-          //var typ  = document.forms["myForm"]["Type"].value;
-
-          // Plot Pixel polygons.
-
-          // var pixel;
-
-          // // Define the LatLng coordinates for the pixel's outline.
-          // var pixelCoords = [
-          //   new google.maps.LatLng(40.630810, -74.368949),//myhouse
-          //   new google.maps.LatLng(40.344185, -74.651427),//pu
-          //   new google.maps.LatLng(40.137298, -74.440258),//6flags
-          //   new google.maps.LatLng(40.346697, -74.065025)//redbank
-          // ];
-
-          // // Construct the pixel.
-          // pixel = new google.maps.Polygon({
-          //   paths: pixelCoords,
-          //   strokeColor: '#FF0000',
-          //   strokeOpacity: hrs/11.,
-          //   strokeWeight: 2,
-          //   fillColor: '#FF0000',
-          //   fillOpacity: mins/50.
-          // });
-
-          // pixel.setMap(map);
-
-          // Create heat map data.
-          var heatMapData = [];
-
-          // Read in data.
-          $(document).ready(function() {
-            $.ajax({
-              type: "GET",
-              url: typfile,
-              dataType: "text",
-              success: function(data) {processData(data);}
-            });
-          });
-          // alert(typfile);
-
-          function processData(allText) {
-            var allTextLines = allText.split(/\r\n|\n/);
-            var lines = [];
-
-            // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
-            for (var i = 0; i < allTextLines.length; i++) {
-              var data = allTextLines[i].split(',');
-              if (data[2+72*ampm+6*hrs+mins] >= 6*min_requests) {
-                var oY = data[0];
-                var oX = data[1];
-                heatMapData[i] = {location: new google.maps.LatLng(38.9+(0.5+parseInt(oY))/138.2, -75.6+(0.5+parseInt(oX))/108.907), weight: (data[2+72*ampm+6*hrs+mins] <= 6*max_requests) ? data[2+72*ampm+6*hrs+mins] : 6*max_requests};
-              }
-            }
-            
-            var heatmap = new google.maps.visualization.HeatmapLayer({
-              data: heatMapData,
-              dissipating: true
-            });
-            // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
-            // maxIntensity: 6*max_requests
-            // maxIntensity: typ==="indiv" ? 1000 : 300
-            heatmap.setMap(map);
-
-          }
-
-          // google.maps.event.addListener(marker, 'click', function() {
-          //   infowindow.open(map,marker);
-          // });
-        }
-
-        // google.maps.event.addListener(marker, 'click', function() {
-        //   map.setZoom(8);
-        //   map.setCenter(marker.getPosition());
-        // });
       }
+
+      function plotMe() {
+
+        // Get submitted parameters.
+        var form_data = $('form').serialize();
+
+        var parts = form_data.split('&');
+
+        for (var i = 0; i < parts.length; i++) {
+          var nv = parts[i].split('=');
+          params[i] = nv[1];
+        }
+      
+        var hrs  = parseInt(params[0]);
+        var mins = parseInt(params[1]);
+        var ampm = parseInt(params[2]);
+        var typ  = params[3];
+        var typfile = typ+".csv";
+        var min_requests = parseInt(params[4]);
+        var max_requests = parseInt(params[5]);
+
+        // Change auto fields.
+        // $("#h_"+params[0]).attr("selected","selected");
+        // $("#m_"+params[1]).attr("selected","selected");
+        // $("#mod_"+params[2]).attr("selected","selected");
+        // $("#type_"+typ).attr("checked","checked");
+        // $("#text_min").attr("value",params[4]);
+        // $("#text_max").attr("value",params[5]);
+
+        //var mins = document.forms["myForm"]["Min"].value;
+        //var ampm = document.forms["myForm"]["Mod"].value;
+        //var typ  = document.forms["myForm"]["Type"].value;
+
+        // Create heat map data.
+        var heatMapData = [];
+
+        // Read in data.
+        $(document).ready(function() {
+          $.ajax({
+            type: "GET",
+            url: typfile,
+            dataType: "text",
+            success: function(data) {processData(data);}
+          });
+        });
+        // alert(typfile);
+
+        function processData(allText) {
+          var allTextLines = allText.split(/\r\n|\n/);
+          var lines = [];
+
+          // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
+          for (var i = 0; i < allTextLines.length; i++) {
+            var data = allTextLines[i].split(',');
+            if (data[2+72*ampm+6*hrs+mins] >= 6*min_requests) {
+              var oY = data[0];
+              var oX = data[1];
+              heatMapData[i] = {location: new google.maps.LatLng(38.9+(0.5+parseInt(oY))/138.2, -75.6+(0.5+parseInt(oX))/108.907), weight: (data[2+72*ampm+6*hrs+mins] <= 6*max_requests) ? data[2+72*ampm+6*hrs+mins] : 6*max_requests};
+            }
+          }
+          
+          var heatmap = new google.maps.visualization.HeatmapLayer({
+            data: heatMapData,
+            dissipating: true
+          });
+          // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
+          // maxIntensity: 6*max_requests
+          // maxIntensity: typ==="indiv" ? 1000 : 300
+          heatmap.setMap(map);
+        }
+      }
+
+      // google.maps.event.addListener(marker, 'click', function() {
+      //   map.setZoom(8);
+      //   map.setCenter(marker.getPosition());
+      // });
 
       google.maps.event.addDomListener(window, 'load', initialize);
 
@@ -197,8 +167,8 @@
     &nbsp;&nbsp;&nbsp;
     Max. Demand: <input id="text_max" type=text name=max size=3 value="9999">
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <!-- <input type=submit> -->
-    <button>Plot</button>
+    <input id="clickPlot" type="button" value="clicked" onclick="plotMe();" />
+    <!-- <button>Plot</button> -->
     
     <br><br>
     <a href="index.html" style="color: #52D017">1 Interactive Heat Map</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index2.html" style="color: #52D017">2 Interactive Heat Maps</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="plots.html?oX=125&oY=65&Type=overlay" style="color: #52D017">Interactive Plots</a>
