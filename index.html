@@ -28,17 +28,17 @@
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4SPbDlN0XvyPEJFZhDhd8hQ0whisSD7Q&libraries=visualization&sensor=false">
     </script>
 
-    <!-- Load RainbowVis-JS, an open-source JavaScript library for color data visualization provided by user anomal in the repo https://github.com/anomal/RainbowVis-JS. See "./license.md" for a license file and see "./readme.markdown" for the latest readme file as of March 31, 2015. I use RainbowVis-JS to create a simple color gradients for "demand request" rate visualizaiton. -->
+    <!-- Load RainbowVis-JS, an open-source JavaScript library for color data visualization provided by user anomal in the repository https://github.com/anomal/RainbowVis-JS. See "./license.md" for a license file and see "./readme.markdown" for the latest readme file as of March 31, 2015. I use RainbowVis-JS to create a simple color gradients for "demand request" rate visualizaiton. -->
     <script type="text/javascript" src="./rainbowvis.js"></script>
 
     <!-- My JavaScript. -->
     <script type="text/javascript">
 
       var map;                    // map on display
-      var heatmap;                // heat map layer
-      var plotted = false;        // has there been at least one plot yet?
       var heatMapDataIndiv = [];  // 1st 2 col oY, oX, rest # "demand requests"
       var heatMapDataUnits = [];  // 1st 2 col oY, oX, rest # "demand requests"
+      // var plotted = false;        // has there been at least one plot yet?
+      // var heatmap;                // heat map layer
 
       // ----- FUNCTION initialize() -------------------------------------
 
@@ -143,43 +143,56 @@
         var min_requests = parseInt(params[4]);
         var max_requests = parseInt(params[5]);
 
-        var heatMapData = [];  // to populate with heat map data for this plot
+        // var heatMapData = [];  // to populate with heat map data for this plot
+
+        // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
+        var rainbow = new Rainbow();
+        rainbow.setSpectrum('#0000FF', '#FF0000');
+        rainbow.setNumberRange(min_requests*6, max_requests*6); 
 
         // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
         if (typ === "indiv") {
-          for (var i = 0; i < heatMapDataIndiv.length; i++) {
+          // Add style.
+          map.data.setStyle(function(feature) {
+            var i = parseInt(feature.getProperty('p'));
             if (heatMapDataIndiv[i][2+72*ampm+6*hrs+mins] >= 6*min_requests) {
-              var oY = heatMapDataIndiv[i][0];
-              var oX = heatMapDataIndiv[i][1];
-              heatMapData[i] = {location: new google.maps.LatLng(38.9+(0.5+parseInt(oY))/138.2, -75.6+(0.5+parseInt(oX))/108.907), weight: (heatMapDataIndiv[i][2+72*ampm+6*hrs+mins] <= 6*max_requests) ? heatMapDataIndiv[i][2+72*ampm+6*hrs+mins] : 6*max_requests};
+              var col = '#' + rainbow.colourAt((heatMapDataIndiv[i][2+72*ampm+6*hrs+mins] <= 6*max_requests) ? heatMapDataIndiv[i][2+72*ampm+6*hrs+mins] : 6*max_requests);
+              return /* @type {google.maps.Data.StyleOptions} */ ({
+                fillColor: col,
+                fillOpacity: 0.4
+              });
             }
-          }
+          });
         }
         else {
-          for (var i = 0; i < heatMapDataUnits.length; i++) {
+          // Add style.
+          map.data.setStyle(function(feature) {
+            var i = parseInt(feature.getProperty('p'));
             if (heatMapDataUnits[i][2+72*ampm+6*hrs+mins] >= 6*min_requests) {
-              var oY = heatMapDataUnits[i][0];
-              var oX = heatMapDataUnits[i][1];
-              heatMapData[i] = {location: new google.maps.LatLng(38.9+(0.5+parseInt(oY))/138.2, -75.6+(0.5+parseInt(oX))/108.907), weight: (heatMapDataUnits[i][2+72*ampm+6*hrs+mins] <= 6*max_requests) ? heatMapDataUnits[i][2+72*ampm+6*hrs+mins] : 6*max_requests};
+              var col = '#' + rainbow.colourAt((heatMapDataUnits[i][2+72*ampm+6*hrs+mins] <= 6*max_requests) ? heatMapDataUnits[i][2+72*ampm+6*hrs+mins] : 6*max_requests);
+              return /* @type {google.maps.Data.StyleOptions} */ ({
+                fillColor: col,
+                fillOpacity: 0.4
+              });
             }
-          }
+          });
         }
 
-        // Remove existing heat map, if one exists. Then plot new one.
-        if (plotted) {
-          heatmap.setMap(null);
-        }
-        else {
-          plotted = true;
-        }
-        heatmap = new google.maps.visualization.HeatmapLayer({
-          data: heatMapData,
-          dissipating: true
-        });
-        // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
-        // maxIntensity: 6*max_requests_right
-        // maxIntensity: typ1==="indiv" ? 1000 : 300
-        heatmap.setMap(map);
+        // // Remove existing heat map, if one exists. Then plot new one.
+        // if (plotted) {
+        //   heatmap.setMap(null);
+        // }
+        // else {
+        //   plotted = true;
+        // }
+        // heatmap = new google.maps.visualization.HeatmapLayer({
+        //   data: heatMapData,
+        //   dissipating: true
+        // });
+        // // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
+        // // maxIntensity: 6*max_requests_right
+        // // maxIntensity: typ1==="indiv" ? 1000 : 300
+        // heatmap.setMap(map);
 
         document.getElementById('info-box').textContent = "Done";
       }
@@ -219,7 +232,7 @@
     </center>
 
     <div id="map-canvas" style="width: 50%; height: 75%; margin:0 auto"></div>
-    <div id="info-box">Hover</div>
+    <div id="info-box">Mouseover</div>
 
     <center>
     <h5 style="color:#F58025">Kyle Douglas, 2015</h5>

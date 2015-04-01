@@ -20,7 +20,7 @@
       background-color: white;
       border: 3px solid black;
       bottom: 50px;
-      height: 20px;
+      height: 18px;
       padding: 10px;
       position: absolute;
       left: 50px;
@@ -29,7 +29,7 @@
       background-color: white;
       border: 3px solid black;
       bottom: 50px;
-      height: 20px;
+      height: 18px;
       padding: 10px;
       position: absolute;
       right: 50px;
@@ -91,12 +91,12 @@
         // Set mouseover event for each feature.
         map1.data.addListener('mouseover', function(event) {
           document.getElementById('info-box1').textContent =
-            event.feature.getProperty('cds');
+            event.feature.getProperty('c');
           map1.data.overrideStyle(event.feature, {strokeColor: '#571B7E', strokeOpacity: 0.75, strokeWeight: 3, fillOpacity: 0.4});
         });
         map2.data.addListener('mouseover', function(event) {
           document.getElementById('info-box2').textContent =
-            event.feature.getProperty('cds');
+            event.feature.getProperty('c');
           map2.data.overrideStyle(event.feature, {strokeColor: '#571B7E', strokeOpacity: 0.75, strokeWeight: 3, fillOpacity: 0.4});
         });
 
