@@ -131,7 +131,6 @@
 
         // Get submitted parameters.
         var form_data = $('form').serialize();
-        console.log(form_data);
 
         var parts = form_data.split('&');
 
@@ -186,6 +185,8 @@
           }
           var true_min = Math.max(min_data,min_requests*6);
           var true_max = Math.min(max_data,max_requests*6);
+          console.log(true_min);
+          console.log(true_max);
           rainbow.setNumberRange(true_min,true_max);
           // Add style.
           map.data.setStyle(function(feature) {
