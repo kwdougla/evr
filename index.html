@@ -115,7 +115,7 @@
         // Set mouseover event for each feature.
         map.data.addListener('mouseover', function(event) {
           document.getElementById('info-box').textContent =
-            event.feature.getProperty('cds');
+            event.feature.getProperty('c');
           map.data.overrideStyle(event.feature, {strokeColor: '#000000', strokeOpacity: 0.75, strokeWeight: 3});
         });
 
@@ -184,6 +184,7 @@
             console.log(heatMapDataUnits);
 
             var i = parseInt(feature.getProperty('p'));
+            console.log(i);
             if (heatMapDataUnits[i][2+72*ampm+6*hrs+mins] >= 6*min_requests) {
               var col = '#' + rainbow.colourAt((heatMapDataUnits[i][2+72*ampm+6*hrs+mins] <= 6*max_requests) ? heatMapDataUnits[i][2+72*ampm+6*hrs+mins] : 6*max_requests);
               return /* @type {google.maps.Data.StyleOptions} */ ({
