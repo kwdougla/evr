@@ -27,6 +27,8 @@
 
     <script type="text/javascript">
 
+      var map;
+
       function initialize() {
 
         var mapOptions = {
@@ -34,7 +36,7 @@
           zoom: 8
         };
 
-        var map = new google.maps.Map(document.getElementById('map-canvas'),
+        map = new google.maps.Map(document.getElementById('map-canvas'),
             mapOptions);
 
         // Load and parse my GeoJSON. (Created using my CreatePixelsJSON.java.)
