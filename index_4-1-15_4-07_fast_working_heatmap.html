@@ -4,7 +4,8 @@
 
   <head>
 
-    <!-- CSS styling. -->
+    <meta charset="utf-8">
+
     <style type="text/css">
       html, body, #map-canvas {height: 100%; margin: 0; padding: 0;}
       #info-box {
@@ -20,18 +21,12 @@
     }
     </style>
 
-    <!-- Load jQuery. -->
     <script type="text/javascript" src="./jquery-2.1.3.min.js"></script>
 
-    <!-- Load valid Google Maps Javascript API v3 key. -->
     <script type="text/javascript"
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4SPbDlN0XvyPEJFZhDhd8hQ0whisSD7Q&libraries=visualization&sensor=false">
     </script>
 
-    <!-- Load RainbowVis-JS, an open-source JavaScript library for color data visualization provided by user anomal in the repo https://github.com/anomal/RainbowVis-JS. See "./RainbowVis-JS/license.md" for a license file and see "./RainbowVis-JS/readme.markdown" for the latest readme file as of March 31, 2015. I use RainbowVis-JS to create a simple color gradients for "demand request" rate visualizaiton. -->
-    <script type="text/javascript" src="./RainbowVis-JS/rainbowvis.js"></script>
-
-    <!-- My JavaScript. -->
     <script type="text/javascript">
 
       var map;                    // map on display
@@ -207,7 +202,7 @@
     Demand Request Type: <input id="type_indiv" type=radio name=Type value="indiv"> Individuals
                   <input id="type_units" type=radio name=Type value="units" checked=checked> "Departure Units"
     <p>
-    Min. Demand: <input id="text_min" type=text name=min size=3 value="1">
+    Min. Demand: <input id="text_min" type=text name=min size=3 value="0">
     &nbsp;&nbsp;&nbsp;
     Max. Demand: <input id="text_max" type=text name=max size=3 value="9999">
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
