@@ -137,7 +137,6 @@
 
         // Get submitted parameters.
         var form_data = $('form').serialize();
-        console.log("form_data");
         console.log(form_data);
 
         var parts = form_data.split('&');
@@ -180,6 +179,10 @@
         else {
           // Add style.
           map.data.setStyle(function(feature) {
+
+            console.log("in else");
+            console.log(heatMapDataUnits);
+
             var i = parseInt(feature.getProperty('p'));
             if (heatMapDataUnits[i][2+72*ampm+6*hrs+mins] >= 6*min_requests) {
               var col = '#' + rainbow.colourAt((heatMapDataUnits[i][2+72*ampm+6*hrs+mins] <= 6*max_requests) ? heatMapDataUnits[i][2+72*ampm+6*hrs+mins] : 6*max_requests);
