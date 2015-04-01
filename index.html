@@ -117,14 +117,6 @@
 
       function plotMe() {
 
-        // Remove existing heat map, if one exists.
-        if (plotted) {
-          heatmap.setMap(null);
-        }
-        else {
-          plotted = true;
-        }
-
         document.getElementById('info-box').textContent = "Working...";
 
         // Get submitted parameters.
@@ -168,6 +160,13 @@
           }
         }
 
+        // Remove existing heat map, if one exists. Then plot new one.
+        if (plotted) {
+          heatmap.setMap(null);
+        }
+        else {
+          plotted = true;
+        }
         heatmap = new google.maps.visualization.HeatmapLayer({
           data: heatMapData,
           dissipating: true
