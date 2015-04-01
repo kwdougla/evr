@@ -10,7 +10,9 @@
       html, body, #map-canvas {height: 100%; margin: 0; padding: 0;}
       #info-box {
       background-color: white;
-      border: 3px solid black;
+      border-width: 3px;
+      border-style: solid;
+      border-color: #F58025;
       bottom: 50px;
       height: 20px;
       padding: 10px;
@@ -27,9 +29,55 @@
 
     <script type="text/javascript">
 
-      var map;
+      var map;                      // map on display
+      var heatMapDataIndiv = [][];  // 1st 2 col oY, oX, rest # "demand requests"
+      var heatMapDataUnits = [][];  // 1st 2 col oY, oX, rest # "demand requests"
 
+      // ----- FUNCTION initialize() -------------------------------------
+
+      // All necessary loading upon startup.
       function initialize() {
+
+        // Read in and process data.
+        $(document).ready(function() {
+          $.ajax({
+            type: "GET",
+            url: "indiv.csv",
+            dataType: "text",
+            success: function(data) {processDataIndiv(data);}
+          });
+        });
+
+        $(document).ready(function() {
+          $.ajax({
+            type: "GET",
+            url: "units.csv",
+            dataType: "text",
+            success: function(data) {processDataUnits(data);}
+          });
+        });
+
+        function processDataIndiv(allText) {
+          var allTextLines = allText.split(/\r\n|\n/);
+          var lines = [];
+          for (var i = 0; i < allTextLines.length; i++) {
+            var data = allTextLines[i].split(',');
+            for (var j = 0; j < data.length; j++) {
+              heatMapDataIndiv[i][j] = data[j];
+            }
+          }
+        }
+
+        function processDataUnits(allText) {
+          var allTextLines = allText.split(/\r\n|\n/);
+          var lines = [];
+          for (var i = 0; i < allTextLines.length; i++) {
+            var data = allTextLines[i].split(',');
+            for (var j = 0; j < data.length; j++) {
+              heatMapDataUnits[i][j] = data[j];
+            }
+          }
+        }
 
         var mapOptions = {
           center: {lat: 40.1430058, lng: -74.7311156},
@@ -67,7 +115,11 @@
 
       }
 
+      // ----- FUNCTION plotMe() -----------------------------------------
+
       function plotMe() {
+
+        document.getElementById('info-box').textContent = "Working...";
 
         // Get submitted parameters.
         var form_data = $('form').serialize();
@@ -84,66 +136,45 @@
         var mins = parseInt(params[1]);
         var ampm = parseInt(params[2]);
         var typ  = params[3];
-        var typfile = typ+".csv";
+        // var typfile = typ+".csv";
         var min_requests = parseInt(params[4]);
         var max_requests = parseInt(params[5]);
 
-        // Change auto fields.
-        // $("#h_"+params[0]).attr("selected","selected");
-        // $("#m_"+params[1]).attr("selected","selected");
-        // $("#mod_"+params[2]).attr("selected","selected");
-        // $("#type_"+typ).attr("checked","checked");
-        // $("#text_min").attr("value",params[4]);
-        // $("#text_max").attr("value",params[5]);
+        var heatMapData = [];  // to populate with heat map data for this plot
 
-        //var mins = document.forms["myForm"]["Min"].value;
-        //var ampm = document.forms["myForm"]["Mod"].value;
-        //var typ  = document.forms["myForm"]["Type"].value;
-
-        // Create heat map data.
-        var heatMapData = [];
-
-        // Read in data.
-        $(document).ready(function() {
-          $.ajax({
-            type: "GET",
-            url: typfile,
-            dataType: "text",
-            success: function(data) {processData(data);}
-          });
-        });
-        // alert(typfile);
-
-        function processData(allText) {
-          var allTextLines = allText.split(/\r\n|\n/);
-          var lines = [];
-
-          // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
-          for (var i = 0; i < allTextLines.length; i++) {
-            var data = allTextLines[i].split(',');
-            if (data[2+72*ampm+6*hrs+mins] >= 6*min_requests) {
-              var oY = data[0];
-              var oX = data[1];
-              heatMapData[i] = {location: new google.maps.LatLng(38.9+(0.5+parseInt(oY))/138.2, -75.6+(0.5+parseInt(oX))/108.907), weight: (data[2+72*ampm+6*hrs+mins] <= 6*max_requests) ? data[2+72*ampm+6*hrs+mins] : 6*max_requests};
+        // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
+        if (typ === "indiv") {
+          for (var i = 0; i < heatMapDataIndiv.length; i++) {
+            if (heatMapDataIndiv[i][2+72*ampm+6*hrs+mins] >= 6*min_requests) {
+              var oY = heatMapDataIndiv[i][0];
+              var oX = heatMapDataIndiv[i][1];
+              heatMapData[i] = {location: new google.maps.LatLng(38.9+(0.5+parseInt(oY))/138.2, -75.6+(0.5+parseInt(oX))/108.907), weight: (heatMapDataIndiv[i][2+72*ampm+6*hrs+mins] <= 6*max_requests) ? heatMapDataIndiv[i][2+72*ampm+6*hrs+mins] : 6*max_requests};
             }
           }
-          
-          var heatmap = new google.maps.visualization.HeatmapLayer({
-            data: heatMapData,
-            dissipating: true
-          });
-          // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
-          // maxIntensity: 6*max_requests
-          // maxIntensity: typ==="indiv" ? 1000 : 300
-          heatmap.setMap(map);
         }
+        else {
+          for (var i = 0; i < heatMapDataUnits.length; i++) {
+            if (heatMapDataUnits[i][2+72*ampm+6*hrs+mins] >= 6*min_requests) {
+              var oY = heatMapDataUnits[i][0];
+              var oX = heatMapDataUnits[i][1];
+              heatMapData[i] = {location: new google.maps.LatLng(38.9+(0.5+parseInt(oY))/138.2, -75.6+(0.5+parseInt(oX))/108.907), weight: (heatMapDataUnits[i][2+72*ampm+6*hrs+mins] <= 6*max_requests) ? heatMapDataUnits[i][2+72*ampm+6*hrs+mins] : 6*max_requests};
+            }
+          }
+        }
+
+        var heatmap = new google.maps.visualization.HeatmapLayer({
+          data: heatMapData,
+          dissipating: true
+        });
+        // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
+        // maxIntensity: 6*max_requests_right
+        // maxIntensity: typ1==="indiv" ? 1000 : 300
+        heatmap.setMap(map);
+
+        document.getElementById('info-box').textContent = "Done";
       }
 
-      // google.maps.event.addListener(marker, 'click', function() {
-      //   map.setZoom(8);
-      //   map.setCenter(marker.getPosition());
-      // });
-
+      // Replaces <body onload="initialize">.
       google.maps.event.addDomListener(window, 'load', initialize);
 
     </script>
