@@ -338,6 +338,8 @@
         // maxIntensity: 6*max_requests_right
         // maxIntensity: typ1==="indiv" ? 1000 : 300
 
+        tempheatmap.setMap(map);
+
         // Remove existing heat map, if one exists. Then plot new one.
         if (plotted) {
           heatmap.setMap(null);
@@ -346,7 +348,6 @@
           plotted = true;
         }
 
-        tempheatmap.setMap(map);
         heatmap = tempheatmap;
 
         // // -----------------------------------------------------------
