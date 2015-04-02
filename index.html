@@ -255,7 +255,7 @@
           // Set mouseover event for each feature.
           map.data.addListener('mouseover', function(event) {
             document.getElementById('demand-box').textContent =
-              heatMapDataIndiv[event.feature.getProperty('p')][2+72*ampm+6*hrs+mins];
+              "Dispatches: " + heatMapDataIndiv[event.feature.getProperty('p')][2+72*ampm+6*hrs+mins];
           });
         }
         else {
@@ -322,7 +322,7 @@
     Demand Request Type: <input id="type_indiv" type=radio name=Type value="indiv"> Individuals
                   <input id="type_units" type=radio name=Type value="units" checked=checked> "Departure Units"
     <p>
-    Min. Demand: <input id="text_min" type=text name=min size=3 value="0">
+    Min. Demand: <input id="text_min" type=text name=min size=3 value="1">
     &nbsp;&nbsp;&nbsp;
     Max. Demand: <input id="text_max" type=text name=max size=3 value="9999">
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
