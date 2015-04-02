@@ -267,8 +267,7 @@
           }
           // Set mouseover event for each feature.
           map.data.addListener('mouseover', function(event) {
-            document.getElementById('demand-box').textContent =
-              "Dispatches: " + heatMapDataIndiv[event.feature.getProperty('p')][2+72*ampm+6*hrs+mins];
+            document.getElementById('demand-box').textContent = "Dispatches: " + heatMapDataIndiv[event.feature.getProperty('p')][2+72*ampm+6*hrs+mins];
           });
         }
         else {
@@ -281,8 +280,8 @@
           }
           // Set mouseover event for each feature.
           map.data.addListener('mouseover', function(event) {
-            document.getElementById('demand-box').textContent =
-              "Dispatches: " + heatMapDataUnits[event.feature.getProperty('p')][2+72*ampm+6*hrs+mins];
+            console.log(heatMapDataUnits);
+            document.getElementById('demand-box').textContent = "Dispatches: " + heatMapDataUnits[event.feature.getProperty('p')][2+72*ampm+6*hrs+mins];
           });
         }
 
