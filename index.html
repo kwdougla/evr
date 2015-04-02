@@ -251,11 +251,8 @@
         var ampm = parseInt(params[2]);
         var typ  = params[6];
         // var typfile = typ+".csv";
-        var min_requests = parseInt(params[7]);
-        var max_requests = parseInt(params[8]);
-
-        console.log(min_requests);
-        console.log(max_requests);
+        var min_requests = parseInt(params[8]);
+        var max_requests = parseInt(params[9]);
 
         var heatMapData = [];  // to populate with heat map data for this plot
 
@@ -294,9 +291,7 @@
         else {
           plotted = true;
         }
-
-        console.log(heatMapData);
-
+        
         heatmap = new google.maps.visualization.HeatmapLayer({
           data: heatMapData,
           dissipating: true
