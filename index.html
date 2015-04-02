@@ -334,6 +334,8 @@
           document.myForm.Mod.value = document.myForm.ModEnd.value;
           $("#slider").slider("option","values",[hi,hi])
         }
+
+        plotMe();
       }
 
       function moveHi() {
@@ -399,7 +401,7 @@
         range: true,
         step: 1,
         values: [0, 143],
-        animate: "slow",
+        animate: "fast",
         slide: function( event, ui ) {
           var lo = ui.values[0];
           if (lo < 72) {
@@ -431,10 +433,9 @@
     <!-- Time (hhm0): <input type=text name=Time size=4> <p> -->
     Demand Request Type: <input id="type_indiv" type=radio name=Type value="indiv"> Individuals
                   <input id="type_units" type=radio name=Type value="units" checked=checked> "Departure Units"
-    <p>
-    Min. Demand: <input id="text_min" type=text name=min size=3 value="1">
+    Min. Demand: &nbsp;<input id="text_min" type=text name=min size=3 value="1">
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Max. Demand: <input id="text_max" type=text name=max size=3 value="9999">
+    Max. Demand: &nbsp;<input id="text_max" type=text name=max size=3 value="9999">
     <!-- <button>Plot</button> -->
     </form>
 
