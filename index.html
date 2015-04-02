@@ -52,8 +52,6 @@
       // All necessary loading upon startup.
       function initialize() {
 
-        console.log("yo");
-
         // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
         rainbow = new Rainbow();
         // rainbow.setSpectrum('#0000FF', '#FF0000');
@@ -139,6 +137,8 @@
       // ----- FUNCTION plotMe() -----------------------------------------
 
       function plotMe() {
+
+        console.log("plot");
 
         document.getElementById('info-box').textContent = "Working...";
 
