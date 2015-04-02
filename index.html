@@ -326,14 +326,14 @@
         console.log(document.myForm.Min.value);
 
         var lo = 0;
-        if (document.myForm.Mod.value == 1) {  // is PM
+        if (parseInt(document.myForm.Mod.value == 1)) {  // is PM
           lo += 72;
         }
         console.log("lo");
         console.log(lo);
-        lo += (document.myForm.Hour.value)*6;
+        lo += (parseInt(document.myForm.Hour.value))*6;
         console.log(lo);
-        lo += document.myForm.Min.value;
+        lo += parseInt(document.myForm.Min.value);
         console.log(lo);
 
         if (lo <= hi) {
