@@ -120,7 +120,7 @@
           var myLatlng = new google.maps.LatLng(38.9+(0.5+parseInt(y))/138.2, -75.6+(0.5+parseInt(x))/108.907);
           marker = new google.maps.Marker({
               position: myLatlng,
-              icon: {url: 'blue-dot.png'},
+              icon: {url: 'green-dot.png'},
               title: "("+x+","+y+")"
           });
           marker.setMap(map);
@@ -192,7 +192,7 @@
         var myLatlng = new google.maps.LatLng(38.9+(0.5+parseInt(y))/138.2, -75.6+(0.5+parseInt(x))/108.907);
         marker = new google.maps.Marker({
             position: myLatlng,
-            icon: {url: 'blue-dot.png'},
+            icon: {url: 'green-dot.png'},
             title: "("+x+","+y+")"
         });
         marker.setMap(map);
@@ -200,10 +200,6 @@
         last_latlong = myLatlng;
         last_x = x;
         last_y = y;
-
-        console.log(last_latlong);
-        console.log(last_x);
-        console.log(last_y);
 
         // Label the marker.
         // var infowindow = new google.maps.InfoWindow({
