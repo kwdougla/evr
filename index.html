@@ -228,6 +228,7 @@
           map.data.revertStyle();
         });
 
+        plotMe();
       }
 
       // ----- FUNCTION plotMe() -----------------------------------------
@@ -441,11 +442,11 @@
     </script>
 
     <!-- Time (hhm0): <input type=text name=Time size=4> <p> -->
-    Demand Request Type: <input id="type_indiv" type=radio name=Type value="indiv"> Individuals
-                  <input id="type_units" type=radio name=Type value="units" checked=checked> "Departure Units"
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Min. Demand: &nbsp;<input id="text_min" type=text name=min size=3 value="1">
+    Demand Request Type: <input id="type_indiv" type=radio name=Type value="indiv" onchange="plotMe()"> Individuals
+                  <input id="type_units" type=radio name=Type value="units" checked=checked onchange="plotMe()"> "Departure Units"
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Min. Demand: &nbsp;<input id="text_min" type=text name=min size=3 value="1" onchange="plotMe()">
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Max. Demand: &nbsp;<input id="text_max" type=text name=max size=3 value="9999">
+    Max. Demand: &nbsp;<input id="text_max" type=text name=max size=3 value="9999" onchange="plotMe()">
     <!-- <button>Plot</button> -->
     </form>
 
