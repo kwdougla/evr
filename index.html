@@ -10,7 +10,8 @@
       #map-canvas {
         height: 100%;
         margin: 0;
-        padding: 0;}
+        padding: 0;
+      }
       #info-box {
         background-color: #413839;
         border-width: 3px;
@@ -44,6 +45,11 @@
       var heatMapDataUnits = [];  // 1st 2 col oY, oX, rest # "demand requests"
       // var plotted = false;        // has there been at least one plot yet?
       // var heatmap;                // heat map layer
+
+      // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
+      var rainbow = new Rainbow();
+      // rainbow.setSpectrum('#0000FF', '#FF0000');
+      rainbow.setSpectrum('#0000FF','#0040FF','#0080FF','#00BFFF','#00FFFF','#00FFBF','#00FF80','#00FF40','#00FF00','#40FF00','#80FF00','#BFFF00','#FFFF00','#FFBF00','#FF8000','#FF4000','#FF0000');
 
       // ----- FUNCTION initialize() -------------------------------------
 
@@ -147,11 +153,6 @@
         // var typfile = typ+".csv";
         var min_requests = parseInt(params[4]);
         var max_requests = parseInt(params[5]);
-
-        // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
-        var rainbow = new Rainbow();
-        // rainbow.setSpectrum('#0000FF', '#FF0000');
-        rainbow.setSpectrum('#0000FF','#0040FF','#0080FF','#00BFFF','#00FFFF','#00FFBF','#00FF80','#00FF40','#00FF00','#40FF00','#80FF00','#BFFF00','#FFFF00','#FFBF00','#FF8000','#FF4000','#FF0000');
 
         // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
         // Pre-populate relevant array of the desired "demand requests."
