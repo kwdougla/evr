@@ -81,10 +81,10 @@
         function processDataIndiv(allText) {
           var allTextLines = allText.split(/\r\n|\n/);
           for (var j = 0; j < 146; j++) {
+            heatMapDataIndiv[j] = [];
             for (var i = 0; i < allTextLines.length; i++) {
               var data = allTextLines[i].split(',');
-              heatMapDataIndiv[j] = [];
-              heatMapDataIndiv[j][i] = data[i];
+              heatMapDataIndiv[j][i] = data[j];
             }
           }
         }
@@ -92,10 +92,10 @@
         function processDataUnits(allText) {
           var allTextLines = allText.split(/\r\n|\n/);
           for (var j = 0; j < 146; j++) {
+            heatMapDataUnits[j] = [];
             for (var i = 0; i < allTextLines.length; i++) {
               var data = allTextLines[i].split(',');
-              heatMapDataUnits[j] = [];
-              heatMapDataUnits[j][i] = data[i];
+              heatMapDataUnits[j][i] = data[j];
             }
           }
         }
