@@ -316,6 +316,7 @@
 
       function animateMe() {
         var diff = curr_hi - curr_lo;
+        var old_lo = curr_lo;
 
         var index = 1;
 
@@ -323,9 +324,9 @@
           setTimeout(function() {
 
             // Increment the left slider button and "current" form values.
-            var lo = curr_lo+index;
+            var lo = old_lo+index;
             console.log("curr_lo");
-            console.log(curr_lo);
+            console.log(old_lo);
             console.log("index");
             console.log(index);
             console.log("lo");
