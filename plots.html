@@ -124,7 +124,7 @@
               title: "("+x+","+y+")"
           });
           marker.setMap(map);
-          
+
           last_latlong = myLatlng;
           last_x = x;
           last_y = y;
@@ -200,6 +200,10 @@
         last_latlong = myLatlng;
         last_x = x;
         last_y = y;
+
+        console.log(last_latlong);
+        console.log(last_x);
+        console.log(last_y);
 
         // Label the marker.
         // var infowindow = new google.maps.InfoWindow({
