@@ -229,6 +229,53 @@
         });
       }
 
+      // --- FUNCTION animateMe() ---------------------------------------
+
+      function animateMe() {
+        var diff = curr_hi - curr_lo;
+        var old_lo = curr_lo;
+
+        var index = 1;
+
+        for (var i = 0; i < diff; i++) {
+          console.log((document.myForm.Delay.value)*1000*index);
+          setTimeout(function() {
+
+            // Increment the left slider button and "current" form values.
+            var lo = old_lo+index;
+            // console.log("curr_lo");
+            // console.log(old_lo);
+            // console.log("index");
+            // console.log(index);
+            // console.log("lo");
+            // console.log(lo);
+            // console.log("diff");
+            // console.log(diff);
+            // console.log("curr_hi");
+            // console.log(curr_hi);
+
+            $("#slider").slider("option","values",[lo,curr_hi]);
+            if (lo < 72) {
+              document.myForm.Mod.value = 0;
+            }
+            else {
+              document.myForm.Mod.value = 1;
+              lo -= 72;
+            }
+            document.myForm.Hour.value = Math.floor(lo/6);
+            document.myForm.Min.value = lo % 6;
+
+            // Plot the current heat map.
+            plotMe();
+
+            index += 1;
+
+          }, (document.myForm.Delay.value)*1000*index);
+        }
+
+        curr_lo = curr_hi;
+      }
+
       // ----- FUNCTION plotMe() -----------------------------------------
 
       function plotMe() {
@@ -309,52 +356,6 @@
         // // -----------------------------------------------------------
 
         document.getElementById('info-box').textContent = "Plotted";
-      }
-
-      // --- FUNCTION animateMe() ---------------------------------------
-
-      function animateMe() {
-        var diff = curr_hi - curr_lo;
-        var old_lo = curr_lo;
-
-        var index = 1;
-
-        for (var i = 0; i < diff; i++) {
-          setTimeout(function() {
-
-            // Increment the left slider button and "current" form values.
-            var lo = old_lo+index;
-            // console.log("curr_lo");
-            // console.log(old_lo);
-            // console.log("index");
-            // console.log(index);
-            // console.log("lo");
-            // console.log(lo);
-            // console.log("diff");
-            // console.log(diff);
-            // console.log("curr_hi");
-            // console.log(curr_hi);
-
-            $("#slider").slider("option","values",[lo,curr_hi]);
-            if (lo < 72) {
-              document.myForm.Mod.value = 0;
-            }
-            else {
-              document.myForm.Mod.value = 1;
-              lo -= 72;
-            }
-            document.myForm.Hour.value = Math.floor(lo/6);
-            document.myForm.Min.value = lo % 6;
-
-            // Plot the current heat map.
-            plotMe();
-
-            index += 1;
-
-          }, (document.myForm.Delay.value)*1000*index);
-        }
-
-        curr_lo = curr_hi;
       }
 
       // --- FUNCTIONS moveLo() and moveHi() ----------------------------
