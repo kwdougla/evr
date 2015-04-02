@@ -312,7 +312,37 @@
         document.getElementById('info-box').textContent = "Plotted";
       }
 
-      // ----------------------------------------------------------------
+      // --- FUNCTION animate() -----------------------------------------
+
+      function animate() {
+        var diff = curr_hi - curr_lo;
+
+        for (var i = 0; i < diff; i++) {
+          setTimeout(function() {
+
+            // Increment the left slider button and "current" form values.
+            var lo = curr_lo+i+1;
+            $("#slider").slider("option","values",[lo,curr_hi]);
+            if (lo < 72) {
+              document.myForm.Mod.value = 0;
+            }
+            else {
+              document.myForm.Mod.value = 1;
+              lo -= 72;
+            }
+            document.myForm.Hour.value = Math.floor(lo/6);
+            document.myForm.Min.value = lo % 6;
+
+            // Plot the current heat map.
+            plotMe();
+
+          }, (document.myForm.Delay.value)*1000);
+        }
+
+        curr_lo = curr_hi;
+      }
+
+      // --- FUNCTIONS moveLo() and moveHi() ----------------------------
 
       function moveLo() {
         var hi = ($("#slider").slider("option","values"))[1];
@@ -391,7 +421,8 @@
     <select name=ModEnd onchange="moveHi()">
       <option id="mode_0" value=0>AM</option><option id="mode_1" value=1 selected="selected">PM</option>
     </select>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="clickPlot" type="button" value="Animate" onclick="plotMe();" />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Delay (s): &nbsp;<input id="delay_s" type=text name=Delay size=3 value="2">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="clickPlot" type="button" value="Animate" onclick="animate();" />
     <p>
 
     <div id="slider"></div>
@@ -406,7 +437,7 @@
         step: 1,
         values: [0, 143],
         animate: "fast",
-        slide: function( event, ui ) {
+        slide: function(event, ui) {
           var lo = ui.values[0];
           if (lo < 72) {
             document.myForm.Mod.value = 0;
