@@ -40,14 +40,14 @@
             mapOptions);
 
         // Load and parse my GeoJSON. (Created using my CreatePixelsJSON.java.)
-        map.data.loadGeoJson('pixelsmini.json');
+        map.data.loadGeoJson('pixels.json');
 
         // Add style.
         map.data.setStyle(function(feature) {
           return /* @type {google.maps.Data.StyleOptions} */ ({
             strokeColor: '#000000',
-            strokeOpacity: 0.08,
-            strokeWeight: 1,
+            strokeOpacity: 0,
+            strokeWeight: 0,
             fillColor: '#842DCE',
             fillOpacity: 0
           });
