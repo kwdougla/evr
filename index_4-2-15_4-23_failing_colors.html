@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<title> 1 Interactive Heat Map </title>
+
+  <head>
+
+    <!-- CSS styling. -->
+    <style type="text/css">
+      html, body,
+      #map-canvas {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #info-box {
+        background-color: #413839;
+        border-width: 3px;
+        border-style: solid;
+        border-color: #F58025;
+        bottom: 50px;
+        color: #FFFFFF;
+        height: 18px;
+        padding: 10px;
+        position: absolute;
+        right: 50px;
+    }
+    </style>
+
+    <!-- Load jQuery. -->
+    <script type="text/javascript" src="./jquery-2.1.3.min.js"></script>
+
+    <!-- Load valid Google Maps Javascript API v3 key. -->
+    <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4SPbDlN0XvyPEJFZhDhd8hQ0whisSD7Q&libraries=visualization&sensor=false">
+    </script>
+
+    <!-- Load RainbowVis-JS, an open-source JavaScript library for color data visualization provided by user anomal in the repository https://github.com/anomal/RainbowVis-JS. See "./license.md" for a license file and see "./readme.markdown" for the latest readme file as of March 31, 2015. I use RainbowVis-JS to create a simple color gradients for "demand request" rate visualizaiton. -->
+    <script type="text/javascript" src="./rainbowvis.js"></script>
+
+    <!-- My JavaScript. -->
+    <script type="text/javascript">
+
+      var map;                    // map on display
+      var heatMapDataIndiv = [];  // 1st 2 col oY, oX, rest # "demand requests"
+      var heatMapDataUnits = [];  // 1st 2 col oY, oX, rest # "demand requests"
+      // var plotted = false;        // has there been at least one plot yet?
+      // var heatmap;                // heat map layer
+      var rainbow;
+
+      // ----- FUNCTION initialize() -------------------------------------
+
+      // All necessary loading upon startup.
+      function initialize() {
+
+        // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
+        rainbow = new Rainbow();
+        // rainbow.setSpectrum('#0000FF', '#FF0000');
+        rainbow.setSpectrum('#0000FF','#0040FF','#0080FF','#00BFFF','#00FFFF','#00FFBF','#00FF80','#00FF40','#00FF00','#40FF00','#80FF00','#BFFF00','#FFFF00','#FFBF00','#FF8000','#FF4000','#FF0000');
+
+        // Read in and process data.
+        $(document).ready(function() {
+          $.ajax({
+            type: "GET",
+            url: "indiv.csv",
+            dataType: "text",
+            success: function(data) {processDataIndiv(data);}
+          });
+        });
+
+        $(document).ready(function() {
+          $.ajax({
+            type: "GET",
+            url: "units.csv",
+            dataType: "text",
+            success: function(data) {processDataUnits(data);}
+          });
+        });
+
+        function processDataIndiv(allText) {
+          var allTextLines = allText.split(/\r\n|\n/);
+          for (var j = 0; j < 146; j++) {
+            heatMapDataIndiv[j] = [];
+            for (var i = 0; i < allTextLines.length; i++) {
+              var data = allTextLines[i].split(',');
+              heatMapDataIndiv[j][i] = data[j];
+            }
+          }
+        }
+
+        function processDataUnits(allText) {
+          var allTextLines = allText.split(/\r\n|\n/);
+          for (var j = 0; j < 146; j++) {
+            heatMapDataUnits[j] = [];
+            for (var i = 0; i < allTextLines.length; i++) {
+              var data = allTextLines[i].split(',');
+              heatMapDataUnits[j][i] = data[j];
+            }
+          }
+        }
+
+        var mapOptions = {
+          center: {lat: 40.1430058, lng: -74.7311156},
+          zoom: 8
+        };
+
+        map = new google.maps.Map(document.getElementById('map-canvas'),
+            mapOptions);
+
+        // Load and parse my GeoJSON. (Created using my CreatePixelsJSON.java.)
+        map.data.loadGeoJson('pixels.json');
+
+        // Add style.
+        map.data.setStyle(function(feature) {
+          return /* @type {google.maps.Data.StyleOptions} */ ({
+            strokeColor: '#000000',
+            strokeOpacity: 0,
+            strokeWeight: 0,
+            fillColor: '#842DCE',
+            fillOpacity: 0
+          });
+        });
+
+        // Set mouseover event for each feature.
+        map.data.addListener('mouseover', function(event) {
+          document.getElementById('info-box').textContent =
+            '(' + event.feature.getProperty('c') + ')';
+          map.data.overrideStyle(event.feature, {strokeColor: '#000000', strokeOpacity: 0.75, strokeWeight: 3});
+        });
+
+        // Set mouseout event for each feature,
+        map.data.addListener('mouseout', function(event) {
+          map.data.revertStyle();
+        });
+
+      }
+
+      // ----- FUNCTION plotMe() -----------------------------------------
+
+      function plotMe() {
+
+        console.log("plot");
+
+        document.getElementById('info-box').textContent = "Working...";
+
+        // Get submitted parameters.
+        var form_data = $('form').serialize();
+
+        var parts = form_data.split('&');
+
+        var params = {};
+        for (var i = 0; i < parts.length; i++) {
+          var nv = parts[i].split('=');
+          params[i] = nv[1];
+        }
+      
+        var hrs  = parseInt(params[0]);
+        var mins = parseInt(params[1]);
+        var ampm = parseInt(params[2]);
+        var typ  = params[3];
+        // var typfile = typ+".csv";
+        var min_requests = parseInt(params[4]);
+        var max_requests = parseInt(params[5]);
+        var index = 2+72*ampm+6*hrs+mins;
+
+        // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
+        // Pre-populate relevant array of the desired "demand requests."
+        // var data = [];
+        // var max_data = 0;
+        // var min_data = Infinity;
+        // if (typ === "indiv") {
+        //   for (var i = 0; i < heatMapDataIndiv.length; i++) {
+        //     data[i] = heatMapDataIndiv[i][2+72*ampm+6*hrs+mins];
+        //     if (data[i] > max_data)
+        //       max_data = data[i];
+        //     if (data[i] < min_data)
+        //       min_data = data[i];
+        //   }
+        // }
+        // else {
+        //   for (var i = 0; i < heatMapDataUnits.length; i++) {
+        //     data[i] = heatMapDataUnits[i][2+72*ampm+6*hrs+mins];
+        //     if (data[i] > max_data)
+        //       max_data = data[i];
+        //     if (data[i] < min_data)
+        //       min_data = data[i];
+        //   }
+        // }
+        //var true_min = Math.max(min_data,min_requests*6);
+        //var true_max = Math.min(max_data,max_requests*6);
+
+        if (typ === "indiv") {
+          rainbow.setNumberRange(Math.max(Math.min.apply(Math,heatMapDataIndiv[index]),min_requests*6),Math.min(Math.max.apply(Math,heatMapDataIndiv[index]),max_requests*6));
+          // Add style.
+          map.data.setStyle(function(feature) {
+            //var i = parseInt(feature.getProperty('p'));
+            return /* @type {google.maps.Data.StyleOptions} */ ({
+              strokeWeight: 0,
+              fillColor: '#' + ((heatMapDataIndiv[index][parseInt(feature.getProperty('p'))] <= 6*max_requests) ? rainbow.colourAt(heatMapDataIndiv[index][parseInt(feature.getProperty('p'))]) : rainbow.colourAt(6*max_requests)),
+              fillOpacity: (heatMapDataIndiv[index][parseInt(feature.getProperty('p'))] >= 6*min_requests) ? 0.4 : 0
+            });
+          });
+        }
+        else {
+          console.log(heatMapDataUnits[index]);
+          rainbow.setNumberRange(Math.max(Math.min.apply(Math,heatMapDataUnits[index]),min_requests*6),Math.min(Math.max.apply(Math,heatMapDataUnits[index]),max_requests*6));
+          // Add style.
+          map.data.setStyle(function(feature) {
+            //var i = parseInt(feature.getProperty('p'));
+            return /* @type {google.maps.Data.StyleOptions} */ ({
+              strokeWeight: 0,
+              fillColor: '#' + ((heatMapDataUnits[index][parseInt(feature.getProperty('p'))] <= 6*max_requests) ? rainbow.colourAt(heatMapDataUnits[index][parseInt(feature.getProperty('p'))]) : rainbow.colourAt(6*max_requests)),
+              fillOpacity: (heatMapDataUnits[index][parseInt(feature.getProperty('p'))] >= 6*min_requests) ? 0.4 : 0
+            });
+          });
+        }
+
+        // // Remove existing heat map, if one exists. Then plot new one.
+        // if (plotted) {
+        //   heatmap.setMap(null);
+        // }
+        // else {
+        //   plotted = true;
+        // }
+        // heatmap = new google.maps.visualization.HeatmapLayer({
+        //   data: heatMapData,
+        //   dissipating: true
+        // });
+        // // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
+        // // maxIntensity: 6*max_requests_right
+        // // maxIntensity: typ1==="indiv" ? 1000 : 300
+        // heatmap.setMap(map);
+
+        document.getElementById('info-box').textContent = "Plotted";
+      }
+
+      // Replaces <body onload="initialize">.
+      google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>
+  </head>
+  <body bgcolor="413839">
+
+    <center>
+    <h3 style="color:#F58025"> 1 Interactive Demand Request Rate Heat Map </h3>
+    <form name=myForm METHOD=GET style="color:#FFFFFF">
+    <select name=Hour>
+      <option id="h_0" value=0>12</option><option id="h_1" value=1>1</option><option id="h_2" value=2>2</option><option id="h_3" value=3>3</option><option id="h_4" value=4>4</option><option id="h_5" value=5>5</option><option id="h_6" value=6>6</option><option id="h_7" value=7>7</option><option id="h_8" value=8>8</option><option id="h_9" value=9>9</option><option id="h_10" value=10>10</option><option id="h_11" value=11>11</option>
+    </select>
+    <select name=Min>
+      <option id="m_0" value=0>00-09</option><option id="m_1" value=1>10-19</option><option id="m_2" value=2>20-29</option><option id="m_3" value=3>30-39</option><option id="m_4" value=4>40-49</option><option id="m_5" value=5>50-59</option>
+    </select>
+    <select name=Mod>
+      <option id="mod_0" value=0>AM</option><option id="mod_1" value=1>PM</option>
+    </select> <p>
+    <!-- Time (hhm0): <input type=text name=Time size=4> <p> -->
+    Demand Request Type: <input id="type_indiv" type=radio name=Type value="indiv"> Individuals
+                  <input id="type_units" type=radio name=Type value="units" checked=checked> "Departure Units"
+    <p>
+    Min. Demand: <input id="text_min" type=text name=min size=3 value="1">
+    &nbsp;&nbsp;&nbsp;
+    Max. Demand: <input id="text_max" type=text name=max size=3 value="9999">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="clickPlot" type="button" value="Plot" onclick="plotMe();" />
+    <!-- <button>Plot</button> -->
+    
+    <br><br>
+    <a href="index.html" style="color: #52D017">1 Interactive Heat Map</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index2.html" style="color: #52D017">2 Interactive Heat Maps</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="plots.html?oX=125&oY=65&Type=overlay" style="color: #52D017">Interactive Plots</a>
+    </center>
+
+    <div id="map-canvas" style="width: 50%; height: 75%; margin:0 auto"></div>
+    <div id="info-box">Mouseover</div>
+
+    <center>
+    <h5 style="color:#F58025">Kyle Douglas, 2015</h5>
+    </center>
+
+  </body>
+</html>

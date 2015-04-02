@@ -4,128 +4,52 @@
 
   <head>
 
-    <meta charset="utf-8">
-
+    <!-- CSS styling. -->
     <style type="text/css">
-      html, body, #map-canvas {height: 100%; margin: 0; padding: 0;}
+      html, body,
+      #map-canvas {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
       #info-box {
-      background-color: white;
-      border-width: 3px;
-      border-style: solid;
-      border-color: #F58025;
-      bottom: 50px;
-      height: 18px;
-      padding: 10px;
-      position: absolute;
-      right: 50px;
+        background-color: #413839;
+        border-width: 3px;
+        border-style: solid;
+        border-color: #F58025;
+        bottom: 50px;
+        color: #FFFFFF;
+        height: 18px;
+        padding: 10px;
+        position: absolute;
+        right: 50px;
     }
     </style>
 
+    <!-- Load jQuery. -->
     <script type="text/javascript" src="./jquery-2.1.3.min.js"></script>
 
+    <!-- Load valid Google Maps Javascript API v3 key. -->
     <script type="text/javascript"
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4SPbDlN0XvyPEJFZhDhd8hQ0whisSD7Q&libraries=visualization&sensor=false">
     </script>
 
+    <!-- Load RainbowVis-JS, an open-source JavaScript library for color data visualization provided by user anomal in the repository https://github.com/anomal/RainbowVis-JS. See "./license.md" for a license file and see "./readme.markdown" for the latest readme file as of March 31, 2015. I use RainbowVis-JS to create a simple color gradients for "demand request" rate visualizaiton. -->
+    <script type="text/javascript" src="./rainbowvis.js"></script>
+
+    <!-- My JavaScript. -->
     <script type="text/javascript">
 
       var map;                    // map on display
-      var heatmap;                // heat map layer
-      var plotted = false;        // has there been at least one plot yet?
       var heatMapDataIndiv = [];  // 1st 2 col oY, oX, rest # "demand requests"
       var heatMapDataUnits = [];  // 1st 2 col oY, oX, rest # "demand requests"
+      // var plotted = false;        // has there been at least one plot yet?
+      // var heatmap;                // heat map layer
 
-      // // -----------------------------------------------------------
-
-      // var TILE_SIZE = 256;
-
-      // //Mercator --BEGIN--
-      // function bound(value, opt_min, opt_max) {
-      //   if (opt_min !== null) value = Math.max(value, opt_min);
-      //   if (opt_max !== null) value = Math.min(value, opt_max);
-      //   return value;
-      // }
-
-      // function degreesToRadians(deg) {
-      //   return deg * (Math.PI / 180);
-      // }
-
-      // function radiansToDegrees(rad) {
-      //   return rad / (Math.PI / 180);
-      // }
-
-      // function MercatorProjection() {
-      //   this.pixelOrigin_ = new google.maps.Point(TILE_SIZE / 2,
-      //   TILE_SIZE / 2);
-      //   this.pixelsPerLonDegree_ = TILE_SIZE / 360;
-      //   this.pixelsPerLonRadian_ = TILE_SIZE / (2 * Math.PI);
-      // }
-
-      // MercatorProjection.prototype.fromLatLngToPoint = function (latLng,
-      // opt_point) {
-      //   var me = this;
-      //   var point = opt_point || new google.maps.Point(0, 0);
-      //   var origin = me.pixelOrigin_;
-
-      //   point.x = origin.x + latLng.lng() * me.pixelsPerLonDegree_;
-
-      //   // NOTE(appleton): Truncating to 0.9999 effectively limits latitude to
-      //   // 89.189.  This is about a third of a tile past the edge of the world
-      //   // tile.
-      //   var siny = bound(Math.sin(degreesToRadians(latLng.lat())), - 0.9999,
-      //   0.9999);
-      //   point.y = origin.y + 0.5 * Math.log((1 + siny) / (1 - siny)) * -me.pixelsPerLonRadian_;
-      //   return point;
-      // };
-
-      // MercatorProjection.prototype.fromPointToLatLng = function (point) {
-      //   var me = this;
-      //   var origin = me.pixelOrigin_;
-      //   var lng = (point.x - origin.x) / me.pixelsPerLonDegree_;
-      //   var latRadians = (point.y - origin.y) / -me.pixelsPerLonRadian_;
-      //   var lat = radiansToDegrees(2 * Math.atan(Math.exp(latRadians)) - Math.PI / 2);
-      //   return new google.maps.LatLng(lat, lng);
-      // };
-
-      // //Mercator --END--\
-
-      // var desiredRadiusPerPointInMeters = 402.3360;
-
-      // function getNewRadius() {
-      
-      //   var numTiles = 1 << map.getZoom();
-      //   var center = map.getCenter();
-      //   var moved = google.maps.geometry.spherical.computeOffset(center, 10000, 90); /*1000 meters to the right*/
-      //   var projection = new MercatorProjection();
-      //   var initCoord = projection.fromLatLngToPoint(center);
-      //   var endCoord = projection.fromLatLngToPoint(moved);
-      //   var initPoint = new google.maps.Point(
-      //     initCoord.x * numTiles,
-      //     initCoord.y * numTiles);
-      //   var endPoint = new google.maps.Point(
-      //     endCoord.x * numTiles,
-      //     endCoord.y * numTiles);
-      //   var pixelsPerMeter = (Math.abs(initPoint.x-endPoint.x))/10000.0;
-      //   var totalPixelSize = Math.floor(desiredRadiusPerPointInMeters*pixelsPerMeter);
-      //   console.log(totalPixelSize);
-
-      //   // if (totalPixelSize == 0 && dissipating == true) {
-      //   //   heatmap.setOptions({dissipating: false});
-      //   //   totalPixelSize = 0.01;
-      //   //   dissipate=false;
-      //   // }
-      //   // else if (totalPixelSize > 0 && dissipate==false) {
-      //   //   heatmap.setOptions({dissipating: true});
-      //   //   dissipate=true;
-      //   // }
-      //   // else if (totalPixelSize == 0) {
-      //   //   totalPixelSize=.01;}
-
-      //   return totalPixelSize;
-         
-      // }
-
-      // // -----------------------------------------------------------
+      // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
+      var rainbow = new Rainbow();
+      // rainbow.setSpectrum('#0000FF', '#FF0000');
+      rainbow.setSpectrum('#0000FF','#0040FF','#0080FF','#00BFFF','#00FFFF','#00FFBF','#00FF80','#00FF40','#00FF00','#40FF00','#80FF00','#BFFF00','#FFFF00','#FFBF00','#FF8000','#FF4000','#FF0000');
 
       // ----- FUNCTION initialize() -------------------------------------
 
@@ -153,6 +77,7 @@
 
         function processDataIndiv(allText) {
           var allTextLines = allText.split(/\r\n|\n/);
+          var lines = [];
           for (var i = 0; i < allTextLines.length; i++) {
             var data = allTextLines[i].split(',');
             heatMapDataIndiv[i] = data;
@@ -161,6 +86,7 @@
 
         function processDataUnits(allText) {
           var allTextLines = allText.split(/\r\n|\n/);
+          var lines = [];
           for (var i = 0; i < allTextLines.length; i++) {
             var data = allTextLines[i].split(',');
             heatMapDataUnits[i] = data;
@@ -228,51 +154,57 @@
         var min_requests = parseInt(params[4]);
         var max_requests = parseInt(params[5]);
 
-        var heatMapData = [];  // to populate with heat map data for this plot
-
         // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
+        // Pre-populate relevant array of the desired "demand requests."
+        var data = [];
+        var max_data = 0;
+        var min_data = Infinity;
         if (typ === "indiv") {
           for (var i = 0; i < heatMapDataIndiv.length; i++) {
-            if (heatMapDataIndiv[i][2+72*ampm+6*hrs+mins] >= 6*min_requests) {
-              var oY = heatMapDataIndiv[i][0];
-              var oX = heatMapDataIndiv[i][1];
-              heatMapData[i] = {location: new google.maps.LatLng(38.9+(0.5+parseInt(oY))/138.2, -75.6+(0.5+parseInt(oX))/108.907), weight: (heatMapDataIndiv[i][2+72*ampm+6*hrs+mins] <= 6*max_requests) ? heatMapDataIndiv[i][2+72*ampm+6*hrs+mins] : 6*max_requests};
-            }
+            data[i] = heatMapDataIndiv[i][2+72*ampm+6*hrs+mins];
+            if (data[i] > max_data)
+              max_data = data[i];
+            if (data[i] < min_data)
+              min_data = data[i];
           }
         }
         else {
           for (var i = 0; i < heatMapDataUnits.length; i++) {
-            if (heatMapDataUnits[i][2+72*ampm+6*hrs+mins] >= 6*min_requests) {
-              var oY = heatMapDataUnits[i][0];
-              var oX = heatMapDataUnits[i][1];
-              heatMapData[i] = {location: new google.maps.LatLng(38.9+(0.5+parseInt(oY))/138.2, -75.6+(0.5+parseInt(oX))/108.907), weight: (heatMapDataUnits[i][2+72*ampm+6*hrs+mins] <= 6*max_requests) ? heatMapDataUnits[i][2+72*ampm+6*hrs+mins] : 6*max_requests};
-            }
+            data[i] = heatMapDataUnits[i][2+72*ampm+6*hrs+mins];
+            if (data[i] > max_data)
+              max_data = data[i];
+            if (data[i] < min_data)
+              min_data = data[i];
           }
         }
-
-        // Remove existing heat map, if one exists. Then plot new one.
-        if (plotted) {
-          heatmap.setMap(null);
-        }
-        else {
-          plotted = true;
-        }
-        heatmap = new google.maps.visualization.HeatmapLayer({
-          data: heatMapData,
-          dissipating: false,
-          radius: getNewRadius()
+        var true_min = Math.max(min_data,min_requests*6);
+        var true_max = Math.min(max_data,max_requests*6);
+        rainbow.setNumberRange(true_min,true_max);
+        // Add style.
+        map.data.setStyle(function(feature) {
+          var i = parseInt(feature.getProperty('p'));
+          return /* @type {google.maps.Data.StyleOptions} */ ({
+            strokeWeight: 0,
+            fillColor: '#' + ((data[i] <= true_max) ? rainbow.colourAt(data[i]) : rainbow.colourAt(true_max)),
+            fillOpacity: (data[i] >= 6*min_requests) ? 0.4 : 0
+          });
         });
-        // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
-        // maxIntensity: 6*max_requests_right
-        // maxIntensity: typ1==="indiv" ? 1000 : 300
-        heatmap.setMap(map);
 
-        // // -----------------------------------------------------------
-        // // Set zeeom_changed event,
-        // google.maps.event.addListener(map, 'zoom_changed', function () {
-        //     heatmap.setOptions({radius:getNewRadius()});
+        // // Remove existing heat map, if one exists. Then plot new one.
+        // if (plotted) {
+        //   heatmap.setMap(null);
+        // }
+        // else {
+        //   plotted = true;
+        // }
+        // heatmap = new google.maps.visualization.HeatmapLayer({
+        //   data: heatMapData,
+        //   dissipating: true
         // });
-        // // -----------------------------------------------------------
+        // // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
+        // // maxIntensity: 6*max_requests_right
+        // // maxIntensity: typ1==="indiv" ? 1000 : 300
+        // heatmap.setMap(map);
 
         document.getElementById('info-box').textContent = "Plotted";
       }
@@ -285,7 +217,7 @@
   <body bgcolor="413839">
 
     <center>
-    <h3 style="color:#F58025"> 1 Interactive Demand Request Rate Heat Map </h3>
+    <h3 style="color:#F58025"> Interactive Demand Request Rate Pixel Color Map </h3>
     <form name=myForm METHOD=GET style="color:#FFFFFF">
     <select name=Hour>
       <option id="h_0" value=0>12</option><option id="h_1" value=1>1</option><option id="h_2" value=2>2</option><option id="h_3" value=3>3</option><option id="h_4" value=4>4</option><option id="h_5" value=5>5</option><option id="h_6" value=6>6</option><option id="h_7" value=7>7</option><option id="h_8" value=8>8</option><option id="h_9" value=9>9</option><option id="h_10" value=10>10</option><option id="h_11" value=11>11</option>
@@ -300,7 +232,7 @@
     Demand Request Type: <input id="type_indiv" type=radio name=Type value="indiv"> Individuals
                   <input id="type_units" type=radio name=Type value="units" checked=checked> "Departure Units"
     <p>
-    Min. Demand: <input id="text_min" type=text name=min size=3 value="0">
+    Min. Demand: <input id="text_min" type=text name=min size=3 value="1">
     &nbsp;&nbsp;&nbsp;
     Max. Demand: <input id="text_max" type=text name=max size=3 value="9999">
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
