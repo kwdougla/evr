@@ -330,6 +330,14 @@
           });
         }
 
+        var tempheatmap = new google.maps.visualization.HeatmapLayer({
+          data: heatMapData,
+          dissipating: true
+        });
+        // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
+        // maxIntensity: 6*max_requests_right
+        // maxIntensity: typ1==="indiv" ? 1000 : 300
+
         // Remove existing heat map, if one exists. Then plot new one.
         if (plotted) {
           heatmap.setMap(null);
@@ -338,14 +346,8 @@
           plotted = true;
         }
 
-        heatmap = new google.maps.visualization.HeatmapLayer({
-          data: heatMapData,
-          dissipating: true
-        });
-        // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
-        // maxIntensity: 6*max_requests_right
-        // maxIntensity: typ1==="indiv" ? 1000 : 300
-        heatmap.setMap(map);
+        tempheatmap.setMap(map);
+        heatmap = tempheatmap;
 
         // // -----------------------------------------------------------
         // // Set zeeom_changed event,
