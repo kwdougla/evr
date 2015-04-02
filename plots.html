@@ -26,6 +26,10 @@
     <script type="text/javascript">
 
       var map;
+      var marker;
+      var last_latlong = false;
+      var last_x = false;
+      var last_y = false;
 
       function initialize() {
 
@@ -104,12 +108,11 @@
           $("#type_"+typ).attr("checked","checked");
 
           var myLatlng = new google.maps.LatLng(38.9+(0.5+parseInt(y))/138.2, -75.6+(0.5+parseInt(x))/108.907);
-          var marker = new google.maps.Marker({
+          marker = new google.maps.Marker({
               position: myLatlng,
+              icon: {url: 'blue-dot.png'},
               title: "("+x+","+y+")"
           });
-
-          // Add the marker to the map.
           marker.setMap(map);
 
           // Label the marker.
@@ -117,6 +120,17 @@
           //     content: "("+x+","+y+")"
           // });
           // infowindow.open(map,marker);
+
+          temp = new google.maps.Marker({
+            position: last_latlong,
+            icon: {url: 'red-dot.png'},
+            title: "("+last_x+","+last_y+")"
+          });
+          temp.setMap(map);
+
+          last_latlong = myLatlng;
+          last_x = x;
+          last_y = y;
 
         });
 
@@ -162,14 +176,27 @@
         $("#type_"+typ).attr("checked","checked");
 
         var myLatlng = new google.maps.LatLng(38.9+(0.5+parseInt(y))/138.2, -75.6+(0.5+parseInt(x))/108.907);
-        var marker = new google.maps.Marker({
+        marker = new google.maps.Marker({
             position: myLatlng,
-            icon: {url: 'blue_MarkerO.png'},
+            icon: {url: 'blue-dot.png'},
             title: "("+x+","+y+")"
         });
-
-        // Add the marker to the map.
         marker.setMap(map);
+
+        if (!last_latlong) {
+        }
+        else {
+          temp = new google.maps.Marker({
+            position: last_latlong,
+            icon: {url: 'red-dot.png'},
+            title: "("+last_x+","+last_y+")"
+          });
+          temp.setMap(map);
+        }
+
+        last_latlong = myLatlng;
+        last_x = x;
+        last_y = y;
 
         // Label the marker.
         // var infowindow = new google.maps.InfoWindow({
