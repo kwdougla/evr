@@ -328,6 +328,19 @@
     <select name=Mod>
       <option id="mod_0" value=0>AM</option><option id="mod_1" value=1>PM</option>
     </select> <p>
+
+    <div id="slider"></div>
+    <script>
+    // $("#slider").css('background', 'rgb(245,128,37)');
+    // $("#slider .ui-slider-range").css('background', 'rgb(245,128,37)');
+    $("#slider").slider({
+      min: 0,
+      max: 143,
+      range: true,
+      step: 1
+    });
+    </script>
+    
     <!-- Time (hhm0): <input type=text name=Time size=4> <p> -->
     Demand Request Type: <input id="type_indiv" type=radio name=Type value="indiv"> Individuals
                   <input id="type_units" type=radio name=Type value="units" checked=checked> "Departure Units"
@@ -339,18 +352,6 @@
     <input id="clickPlot" type="button" value="Plot" onclick="plotMe();" />
     <!-- <button>Plot</button> -->
     </form>
-    
-    <div id="slider"></div>
-    <script>
-    // $("#slider").css('background', 'rgb(245,128,37)');
-    $("#slider .ui-slider-range").css('background', 'rgb(245,128,37)');
-    $("#slider").slider({
-      min: 0,
-      max: 143,
-      range: true,
-      step: 1
-    });
-    </script>
 
     <a href="index.html" style="color: #52D017">1 Interactive Heat Map</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index2.html" style="color: #52D017">2 Interactive Heat Maps</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="plots.html" style="color: #52D017">Interactive Plots</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="colors.html" style="color: #52D017">Interactive Pixel Color Map</a>
     </center>
