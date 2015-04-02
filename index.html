@@ -280,11 +280,6 @@
           }
           // Set mouseover event for each feature.
           map.data.addListener('mouseover', function(event) {
-
-            console.log(heatMapDataUnits);
-            console.log(event.feature.getProperty('p'));
-            console.log(parseInt(event.feature.getProperty('p')));
-
             document.getElementById('demand-box').textContent = "Dispatches: " + heatMapDataUnits[parseInt(event.feature.getProperty('p'))][2+72*ampm+6*hrs+mins];
           });
         }
