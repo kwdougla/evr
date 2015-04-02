@@ -316,8 +316,6 @@
 
       function animateMe() {
         var diff = curr_hi - curr_lo;
-        console.log("diff");
-        console.log(diff);
 
         var index = 1;
 
@@ -332,6 +330,10 @@
             console.log(index);
             console.log("lo");
             console.log(lo);
+            console.log("diff");
+            console.log(diff);
+            console.log("curr_hi");
+            console.log(curr_hi);
 
             $("#slider").slider("option","values",[lo,curr_hi]);
             if (lo < 72) {
