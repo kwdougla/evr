@@ -68,8 +68,10 @@
         // Set click event for each feature.
         map.data.addListener('click', function(event) {
           var two_parts = (event.feature.getProperty('c')).split(',');
-          var x_str = two_parts[0].substring(1);
-          var y_str = two_parts[1].slice(0,-1);
+          // var x_str = two_parts[0].substring(1);
+          // var y_str = two_parts[1].slice(0,-1);
+          var x_str = two_parts[0];
+          var y_str = two_parts[1];
           $("#myImg").attr("src","./overlay_png/"+x_str+","+y_str+".png");
           $("#text_oX").attr("value",x_str);
           $("#text_oY").attr("value",y_str);
@@ -81,59 +83,56 @@
 
         // $(document).ready(function(){
         //   $("button").click(function(){
-
-        if (location.search) {
-
-          // Get submitted parameters.
-          var params = {};
-
-          var parts = location.search.substring(1).split('&');
-
-          for (var i = 0; i < parts.length; i++) {
-              var nv = parts[i].split('=');
-              params[i] = nv[1];
-          }
-        
-          var x   = params[0];
-          var y   = params[1];
-          var typ = params[2];
-
-          document.myForm.oX = x;
-          document.myForm.oY = y;
-          document.myForm.Type = typ;
-
-          var str1 = "_png/";
-          var str2 = ",";
-          var str3 = ".png"
-
-          var final_str = "./" + typ + str1 + x + str2 + y + str3;
-          
-          //var final_str = "./"+((((typ.concat(str1)).concat(x)).concat(str2)).concat(y)).concat(str3);
-
-          // Change image and auto fields.
-          $("#myImg").attr("src",final_str);
-          $("#text_oX").attr("value",x);
-          $("#text_oY").attr("value",y);
-          $("#type_"+typ).attr("checked","checked");
-
-          var myLatlng = new google.maps.LatLng(38.9+(0.5+parseInt(y))/138.2, -75.6+(0.5+parseInt(x))/108.907);
-          var marker = new google.maps.Marker({
-              position: myLatlng,
-              title: "("+x+","+y+")"
-          });
-
-          // Add the marker to the map.
-          marker.setMap(map);
-
-          // Label the marker.
-          // var infowindow = new google.maps.InfoWindow({
-          //     content: "("+x+","+y+")"
-          // });
-          // infowindow.open(map,marker);
-        }
-
         //   });
         // });
+
+      }
+
+      function plotMe() {
+
+        // Get submitted parameters.
+        var form_data = $('form').serialize();
+
+        var parts = form_data.split('&');
+
+        var params = {};
+        for (var i = 0; i < parts.length; i++) {
+          var nv = parts[i].split('=');
+          params[i] = nv[1];
+        }
+      
+        var x   = params[0];
+        var y   = params[1];
+        var typ = params[2];
+
+        var str1 = "_png/";
+        var str2 = ",";
+        var str3 = ".png"
+
+        var final_str = "./" + typ + str1 + x + str2 + y + str3;
+        
+        //var final_str = "./"+((((typ.concat(str1)).concat(x)).concat(str2)).concat(y)).concat(str3);
+
+        // Change image and auto fields.
+        $("#myImg").attr("src",final_str);
+        $("#text_oX").attr("value",x);
+        $("#text_oY").attr("value",y);
+        $("#type_"+typ).attr("checked","checked");
+
+        var myLatlng = new google.maps.LatLng(38.9+(0.5+parseInt(y))/138.2, -75.6+(0.5+parseInt(x))/108.907);
+        var marker = new google.maps.Marker({
+            position: myLatlng,
+            title: "("+x+","+y+")"
+        });
+
+        // Add the marker to the map.
+        marker.setMap(map);
+
+        // Label the marker.
+        // var infowindow = new google.maps.InfoWindow({
+        //     content: "("+x+","+y+")"
+        // });
+        // infowindow.open(map,marker);
 
       }
 
@@ -162,10 +161,10 @@
                   <input id="type_units" type=radio name=Type value="units"> "Departure Units"
                   <input id="type_overlay" type=radio name=Type value="overlay" checked=checked> Overlay
     <br> <br>
-    <button>Plot</button>
+    <input id="clickPlot" type="button" value="Plot" onclick="plotMe();" />
 
     <br><br>
-    <a href="index.html" style="color: #52D017">1 Interactive Heat Map</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index2.html" style="color: #52D017">2 Interactive Heat Maps</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="plots.html?oX=125&oY=65&Type=overlay" style="color: #52D017">Interactive Plots</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="colors.html" style="color: #52D017">Pixel Color Map</a>
+    <a href="index.html" style="color: #52D017">1 Interactive Heat Map</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="index2.html" style="color: #52D017">2 Interactive Heat Maps</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="plots.html" style="color: #52D017">Interactive Plots</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="colors.html" style="color: #52D017">Pixel Color Map</a>
     </center>
     <br><br>
     </center>
