@@ -340,9 +340,11 @@
     
     <div id="slider"></div>
     <script>
+    // $("#slider").css('background', 'rgb(245,128,37)');
+    $("#slider .ui-slider-range").css('background', 'rgb(245,128,37)');
     $("#slider").slider({
       min: 0,
-      max: 143,
+      max: 3,
       range: true,
       step: 1
     });
