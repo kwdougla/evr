@@ -25,8 +25,6 @@
 
     <script type="text/javascript">
 
-      //function setfocus() {document.myForm.x.focus();}
-
       function initialize() {
 
         document.myForm.oX.focus();
@@ -52,6 +50,8 @@
             fillOpacity: 0
           });
         });
+
+        plotMe();
 
         // Set mouseover event for each feature.
         map.data.addListener('mouseover', function(event) {
