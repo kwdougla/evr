@@ -316,6 +316,7 @@
 
       function animateMe() {
         var diff = curr_hi - curr_lo;
+        console.log("diff");
         console.log(diff);
 
         for (var i = 0; i < diff; i++) {
@@ -323,7 +324,13 @@
 
             // Increment the left slider button and "current" form values.
             var lo = curr_lo+i+1;
+            console.log("curr_lo");
+            console.log(curr_lo);
+            console.log("i");
+            console.log(i);
+            console.log("lo");
             console.log(lo);
+            
             $("#slider").slider("option","values",[lo,curr_hi]);
             if (lo < 72) {
               document.myForm.Mod.value = 0;
