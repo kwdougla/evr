@@ -201,7 +201,7 @@
           });
         }
         else {
-          console.log(heatMapDataUnits[index]));
+          console.log(heatMapDataUnits[index]);
           rainbow.setNumberRange(Math.max(Math.min.apply(Math,heatMapDataUnits[index]),min_requests*6),Math.min(Math.max.apply(Math,heatMapDataUnits[index]),max_requests*6));
           // Add style.
           map.data.setStyle(function(feature) {
