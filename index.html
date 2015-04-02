@@ -318,15 +318,8 @@
         console.log("hi");
         console.log(hi);
 
-        console.log("document.myForm.Mod.value");
-        console.log(document.myForm.Mod.value);
-        console.log("document.myForm.Hour.value");
-        console.log(document.myForm.Hour.value);
-        console.log("document.myForm.Min.value");
-        console.log(document.myForm.Min.value);
-
         var lo = 0;
-        if (parseInt(document.myForm.Mod.value == 1)) {  // is PM
+        if (parseInt(document.myForm.Mod.value) == 1) {  // is PM
           lo += 72;
         }
         console.log("lo");
@@ -344,6 +337,34 @@
           document.myForm.Min.value = document.myForm.MinEnd.value;
           document.myForm.Mod.value = document.myForm.ModEnd.value;
           $("#slider").slider("option","values",[hi,hi])
+        }
+        
+      }
+
+      function moveHi() {
+        var lo = ($("#slider").slider("option","values"))[0];
+        console.log("lo");
+        console.log(lo);
+
+        var hi = 0;
+        if (parseInt(document.myForm.Mod.value) == 1) {  // is PM
+          hi += 72;
+        }
+        console.log("hi");
+        console.log(hi);
+        hi += (parseInt(document.myForm.Hour.value))*6;
+        console.log(hi);
+        hi += parseInt(document.myForm.Min.value);
+        console.log(hi);
+
+        if (lo <= hi) {
+          $("#slider").slider("option","values",[lo,hi]);
+        }
+        else {
+          document.myForm.HourEnd.value = document.myForm.Hour.value;
+          document.myForm.MinEnd.value = document.myForm.Min.value;
+          document.myForm.ModEnd.value = document.myForm.Mod.value;
+          $("#slider").slider("option","values",[lo,lo])
         }
         
       }
