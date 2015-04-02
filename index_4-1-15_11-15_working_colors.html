@@ -45,17 +45,16 @@
       var heatMapDataUnits = [];  // 1st 2 col oY, oX, rest # "demand requests"
       // var plotted = false;        // has there been at least one plot yet?
       // var heatmap;                // heat map layer
-      var rainbow;
+
+      // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
+      var rainbow = new Rainbow();
+      // rainbow.setSpectrum('#0000FF', '#FF0000');
+      rainbow.setSpectrum('#0000FF','#0040FF','#0080FF','#00BFFF','#00FFFF','#00FFBF','#00FF80','#00FF40','#00FF00','#40FF00','#80FF00','#BFFF00','#FFFF00','#FFBF00','#FF8000','#FF4000','#FF0000');
 
       // ----- FUNCTION initialize() -------------------------------------
 
       // All necessary loading upon startup.
       function initialize() {
-
-        // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
-        rainbow = new Rainbow();
-        // rainbow.setSpectrum('#0000FF', '#FF0000');
-        rainbow.setSpectrum('#0000FF','#0040FF','#0080FF','#00BFFF','#00FFFF','#00FFBF','#00FF80','#00FF40','#00FF00','#40FF00','#80FF00','#BFFF00','#FFFF00','#FFBF00','#FF8000','#FF4000','#FF0000');
 
         // Read in and process data.
         $(document).ready(function() {
@@ -78,23 +77,19 @@
 
         function processDataIndiv(allText) {
           var allTextLines = allText.split(/\r\n|\n/);
-          for (var j = 0; j < 146; j++) {
-            for (var i = 0; i < allTextLines.length; i++) {
-              var data = allTextLines[i].split(',');
-              heatMapDataIndiv[j] = [];
-              heatMapDataIndiv[j][i] = data[i];
-            }
+          var lines = [];
+          for (var i = 0; i < allTextLines.length; i++) {
+            var data = allTextLines[i].split(',');
+            heatMapDataIndiv[i] = data;
           }
         }
 
         function processDataUnits(allText) {
           var allTextLines = allText.split(/\r\n|\n/);
-          for (var j = 0; j < 146; j++) {
-            for (var i = 0; i < allTextLines.length; i++) {
-              var data = allTextLines[i].split(',');
-              heatMapDataUnits[j] = [];
-              heatMapDataUnits[j][i] = data[i];
-            }
+          var lines = [];
+          for (var i = 0; i < allTextLines.length; i++) {
+            var data = allTextLines[i].split(',');
+            heatMapDataUnits[i] = data;
           }
         }
 
@@ -158,58 +153,42 @@
         // var typfile = typ+".csv";
         var min_requests = parseInt(params[4]);
         var max_requests = parseInt(params[5]);
-        var index = 2+72*ampm+6*hrs+mins;
 
         // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
         // Pre-populate relevant array of the desired "demand requests."
-        // var data = [];
-        // var max_data = 0;
-        // var min_data = Infinity;
-        // if (typ === "indiv") {
-        //   for (var i = 0; i < heatMapDataIndiv.length; i++) {
-        //     data[i] = heatMapDataIndiv[i][2+72*ampm+6*hrs+mins];
-        //     if (data[i] > max_data)
-        //       max_data = data[i];
-        //     if (data[i] < min_data)
-        //       min_data = data[i];
-        //   }
-        // }
-        // else {
-        //   for (var i = 0; i < heatMapDataUnits.length; i++) {
-        //     data[i] = heatMapDataUnits[i][2+72*ampm+6*hrs+mins];
-        //     if (data[i] > max_data)
-        //       max_data = data[i];
-        //     if (data[i] < min_data)
-        //       min_data = data[i];
-        //   }
-        // }
-        //var true_min = Math.max(min_data,min_requests*6);
-        //var true_max = Math.min(max_data,max_requests*6);
-
+        var data = [];
+        var max_data = 0;
+        var min_data = Infinity;
         if (typ === "indiv") {
-          rainbow.setNumberRange(Math.max(Math.min.apply(Math,heatMapDataIndiv[index]),min_requests*6),Math.min(Math.max.apply(Math,heatMapDataIndiv[index]),max_requests*6));
-          // Add style.
-          map.data.setStyle(function(feature) {
-            //var i = parseInt(feature.getProperty('p'));
-            return /* @type {google.maps.Data.StyleOptions} */ ({
-              strokeWeight: 0,
-              fillColor: '#' + ((heatMapDataIndiv[index][parseInt(feature.getProperty('p')] <= 6*max_requests) ? rainbow.colourAt(heatMapDataIndiv[index][parseInt(feature.getProperty('p')]) : rainbow.colourAt(6*max_requests)),
-              fillOpacity: (heatMapDataIndiv[index][i] >= 6*min_requests) ? 0.4 : 0
-            });
-          });
+          for (var i = 0; i < heatMapDataIndiv.length; i++) {
+            data[i] = heatMapDataIndiv[i][2+72*ampm+6*hrs+mins];
+            if (data[i] > max_data)
+              max_data = data[i];
+            if (data[i] < min_data)
+              min_data = data[i];
+          }
         }
         else {
-          rainbow.setNumberRange(Math.max(Math.min.apply(Math,heatMapDataUnits[index]),min_requests*6),Math.min(Math.max.apply(Math,heatMapDataUnits[index]),max_requests*6));
-          // Add style.
-          map.data.setStyle(function(feature) {
-            //var i = parseInt(feature.getProperty('p'));
-            return /* @type {google.maps.Data.StyleOptions} */ ({
-              strokeWeight: 0,
-              fillColor: '#' + ((heatMapDataUnits[index][parseInt(feature.getProperty('p')] <= 6*max_requests) ? rainbow.colourAt(heatMapDataUnits[index][parseInt(feature.getProperty('p')]) : rainbow.colourAt(6*max_requests)),
-              fillOpacity: (heatMapDataUnits[index][i] >= 6*min_requests) ? 0.4 : 0
-            });
-          });
+          for (var i = 0; i < heatMapDataUnits.length; i++) {
+            data[i] = heatMapDataUnits[i][2+72*ampm+6*hrs+mins];
+            if (data[i] > max_data)
+              max_data = data[i];
+            if (data[i] < min_data)
+              min_data = data[i];
+          }
         }
+        var true_min = Math.max(min_data,min_requests*6);
+        var true_max = Math.min(max_data,max_requests*6);
+        rainbow.setNumberRange(true_min,true_max);
+        // Add style.
+        map.data.setStyle(function(feature) {
+          var i = parseInt(feature.getProperty('p'));
+          return /* @type {google.maps.Data.StyleOptions} */ ({
+            strokeWeight: 0,
+            fillColor: '#' + ((data[i] <= true_max) ? rainbow.colourAt(data[i]) : rainbow.colourAt(true_max)),
+            fillOpacity: (data[i] >= 6*min_requests) ? 0.4 : 0
+          });
+        });
 
         // // Remove existing heat map, if one exists. Then plot new one.
         // if (plotted) {

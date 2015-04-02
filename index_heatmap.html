@@ -61,7 +61,6 @@
 
         function processDataIndiv(allText) {
           var allTextLines = allText.split(/\r\n|\n/);
-          var lines = [];
           for (var i = 0; i < allTextLines.length; i++) {
             var data = allTextLines[i].split(',');
             heatMapDataIndiv[i] = data;
@@ -70,7 +69,6 @@
 
         function processDataUnits(allText) {
           var allTextLines = allText.split(/\r\n|\n/);
-          var lines = [];
           for (var i = 0; i < allTextLines.length; i++) {
             var data = allTextLines[i].split(',');
             heatMapDataUnits[i] = data;
