@@ -13,12 +13,12 @@
         border-width: 3px;
         border-style: solid;
         border-color: #F58025;
-        bottom: 100px;
+        bottom: 75px;
         color: #FFFFFF;
         height: 16px;
         padding: 10px;
         position: absolute;
-        right: 50px;
+        right: 16px;
       }
       #demand-box {
         background-color: #413839;
@@ -30,7 +30,7 @@
         height: 16px;
         padding: 10px;
         position: absolute;
-        right: 50px;
+        right: 16px;
       }
     </style>
 
@@ -269,7 +269,7 @@
           // Set mouseover event for each feature.
           map.data.addListener('mouseover', function(event) {
             document.getElementById('demand-box').textContent =
-              "Dispatches " + heatMapDataUnits[event.feature.getProperty('p')][2+72*ampm+6*hrs+mins];
+              "Dispatches: " + heatMapDataUnits[event.feature.getProperty('p')][2+72*ampm+6*hrs+mins];
           });
         }
 

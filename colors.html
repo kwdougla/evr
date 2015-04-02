@@ -17,12 +17,24 @@
         border-width: 3px;
         border-style: solid;
         border-color: #F58025;
-        bottom: 50px;
+        bottom: 75px;
         color: #FFFFFF;
-        height: 18px;
+        height: 16px;
         padding: 10px;
         position: absolute;
-        right: 50px;
+        right: 16px;
+      }
+      #demand-box {
+        background-color: #413839;
+        border-width: 3px;
+        border-style: solid;
+        border-color: #F58025;
+        bottom: 25px;
+        color: #FFFFFF;
+        height: 16px;
+        padding: 10px;
+        position: absolute;
+        right: 16px;
       }
     </style>
 
@@ -193,6 +205,13 @@
               min_data = data[i];
           }
         }
+
+        // Set mouseover event for each feature.
+          map.data.addListener('mouseover', function(event) {
+            document.getElementById('demand-box').textContent =
+              "Dispatches: " + data[event.feature.getProperty('p')];
+          });
+          
         var true_min = Math.max(min_data,min_requests*6);
         var true_max = Math.min(max_data,max_requests*6);
         rainbow.setNumberRange(true_min,true_max);
@@ -261,6 +280,7 @@
 
     <div id="map-canvas" style="width: 50%; height: 75%; margin:0 auto"></div>
     <div id="info-box">Mouseover</div>
+    <div id="demand-box">Plot</div>
 
     <center>
     <h5 style="color:#F58025">Kyle Douglas, 2015</h5>
