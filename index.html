@@ -347,14 +347,14 @@
         console.log(lo);
 
         var hi = 0;
-        if (parseInt(document.myForm.Mod.value) == 1) {  // is PM
+        if (parseInt(document.myForm.ModEnd.value) == 1) {  // is PM
           hi += 72;
         }
         console.log("hi");
         console.log(hi);
-        hi += (parseInt(document.myForm.Hour.value))*6;
+        hi += (parseInt(document.myForm.HourEnd.value))*6;
         console.log(hi);
-        hi += parseInt(document.myForm.Min.value);
+        hi += parseInt(document.myForm.MinEnd.value);
         console.log(hi);
 
         if (lo <= hi) {
