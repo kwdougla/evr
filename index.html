@@ -312,9 +312,9 @@
         document.getElementById('info-box').textContent = "Plotted";
       }
 
-      // --- FUNCTION animate() -----------------------------------------
+      // --- FUNCTION animateMe() ---------------------------------------
 
-      function animate() {
+      function animateMe() {
         var diff = curr_hi - curr_lo;
 
         for (var i = 0; i < diff; i++) {
@@ -421,8 +421,8 @@
     <select name=ModEnd onchange="moveHi()">
       <option id="mode_0" value=0>AM</option><option id="mode_1" value=1 selected="selected">PM</option>
     </select>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Delay (s): &nbsp;<input id="delay_s" type=text name=Delay size=3 value="2">
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="clickPlot" type="button" value="Animate" onclick="animate();" />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Delay (s): &nbsp;<input id="delay_s" type=text name=Delay size=2 value="2">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="clickPlot" type="button" value="Animate" onclick="animateMe();" />
     <p>
 
     <div id="slider"></div>
