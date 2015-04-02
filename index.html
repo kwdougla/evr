@@ -315,13 +315,20 @@
 
       function moveLo() {
         var hi = ($("#slider").slider("option","values"))[1];
+        console.log("hi");
+        console.log(hi);
+
+        console.log("lo");
 
         var lo = 0;
         if (document.myForm.Mod.value) {  // is PM
           lo += 72;
         }
+        console.log(lo);
         lo += (document.myForm.Hour.value)*6;
+        console.log(lo);
         lo += document.myForm.Min.value;
+        console.log(lo);
 
         if (lo <= hi) {
           $("#slider").slider("option","values",[lo,hi]);
