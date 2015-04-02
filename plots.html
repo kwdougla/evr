@@ -7,13 +7,13 @@
     <style type="text/css">
       html, body, #map-canvas {height: 100%; margin: 0; padding: 0;}
       #info-box {
-      background-color: white;
-      border: 3px solid black;
-      bottom: 50px;
-      height: 18px;
-      padding: 10px;
-      position: absolute;
-      right: 50px;
+        background-color: white;
+        border: 3px solid black;
+        bottom: 25px;
+        height: 16px;
+        padding: 10px;
+        position: absolute;
+        right: 25px;
     }
     </style>
 
@@ -56,7 +56,7 @@
         // Set mouseover event for each feature.
         map.data.addListener('mouseover', function(event) {
           document.getElementById('info-box').textContent =
-            event.feature.getProperty('c');
+            '(' + event.feature.getProperty('c') + ')';
           map.data.overrideStyle(event.feature, {strokeColor: '#571B7E', strokeOpacity: 0.75, strokeWeight: 3, fillOpacity: 0.4});
         });
 
