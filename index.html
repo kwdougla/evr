@@ -259,8 +259,7 @@
         }
         heatmap = new google.maps.visualization.HeatmapLayer({
           data: heatMapData,
-          dissipating: false,
-          radius: getNewRadius()
+          dissipating: true
         });
         // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
         // maxIntensity: 6*max_requests_right
