@@ -374,6 +374,7 @@
           }
           document.myForm.HourEnd.value = Math.floor(hi/6);
           document.myForm.MinEnd.value = hi % 6;
+          console.log($('form').serialize());
         }
       });
 
