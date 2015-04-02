@@ -320,9 +320,13 @@
 
         console.log("document.myForm.Mod.value");
         console.log(document.myForm.Mod.value);
+        console.log("document.myForm.Hour.value");
+        console.log(document.myForm.Hour.value);
+        console.log("document.myForm.Min.value");
+        console.log(document.myForm.Min.value);
 
         var lo = 0;
-        if (document.myForm.Mod.value) {  // is PM
+        if (document.myForm.Mod.value == 1) {  // is PM
           lo += 72;
         }
         console.log("lo");
