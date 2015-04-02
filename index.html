@@ -318,12 +318,14 @@
         console.log("hi");
         console.log(hi);
 
-        console.log("lo");
+        console.log("document.myForm.Mod.value");
+        console.log(document.myForm.Mod.value);
 
         var lo = 0;
         if (document.myForm.Mod.value) {  // is PM
           lo += 72;
         }
+        console.log("lo");
         console.log(lo);
         lo += (document.myForm.Hour.value)*6;
         console.log(lo);
