@@ -107,6 +107,17 @@
           $("#text_oY").attr("value",y);
           $("#type_"+typ).attr("checked","checked");
 
+          temp = new google.maps.Marker({
+            position: last_latlong,
+            icon: {url: 'red-dot.png'},
+            title: "("+last_x+","+last_y+")"
+          });
+          temp.setMap(map);
+
+          last_latlong = myLatlng;
+          last_x = x;
+          last_y = y;
+
           var myLatlng = new google.maps.LatLng(38.9+(0.5+parseInt(y))/138.2, -75.6+(0.5+parseInt(x))/108.907);
           marker = new google.maps.Marker({
               position: myLatlng,
@@ -120,17 +131,6 @@
           //     content: "("+x+","+y+")"
           // });
           // infowindow.open(map,marker);
-
-          temp = new google.maps.Marker({
-            position: last_latlong,
-            icon: {url: 'red-dot.png'},
-            title: "("+last_x+","+last_y+")"
-          });
-          temp.setMap(map);
-
-          last_latlong = myLatlng;
-          last_x = x;
-          last_y = y;
 
         });
 
@@ -175,14 +175,6 @@
         $("#text_oY").attr("value",y);
         $("#type_"+typ).attr("checked","checked");
 
-        var myLatlng = new google.maps.LatLng(38.9+(0.5+parseInt(y))/138.2, -75.6+(0.5+parseInt(x))/108.907);
-        marker = new google.maps.Marker({
-            position: myLatlng,
-            icon: {url: 'blue-dot.png'},
-            title: "("+x+","+y+")"
-        });
-        marker.setMap(map);
-
         if (!last_latlong) {
         }
         else {
@@ -193,6 +185,14 @@
           });
           temp.setMap(map);
         }
+
+        var myLatlng = new google.maps.LatLng(38.9+(0.5+parseInt(y))/138.2, -75.6+(0.5+parseInt(x))/108.907);
+        marker = new google.maps.Marker({
+            position: myLatlng,
+            icon: {url: 'blue-dot.png'},
+            title: "("+x+","+y+")"
+        });
+        marker.setMap(map);
 
         last_latlong = myLatlng;
         last_x = x;
