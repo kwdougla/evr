@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title> 1 Interactive Pixel Color Map </title>
+<title> Interactive Trips Visualization </title>
 
   <head>
 
@@ -52,78 +52,20 @@
     <!-- My JavaScript. -->
     <script type="text/javascript">
 
-
-
-
-
-
-
-
-    // TRY NOT USING GEOJSON
-
-
-
-
-
-
-
-
       var map;                    // map on display
       var heatMapDataIndiv = [];  // 1st 2 col oY, oX, rest # "demand requests"
       var heatMapDataUnits = [];  // 1st 2 col oY, oX, rest # "demand requests"
       // var plotted = false;        // has there been at least one plot yet?
       // var heatmap;                // heat map layer
 
-      // WHEN UPLOAD CSV WITH UNITS (10 min)^(-1), REMOVE "6*"!
-      var rainbow = new Rainbow();
-      // rainbow.setSpectrum('#0000FF', '#FF0000');
-      rainbow.setSpectrum('#0000FF','#0040FF','#0080FF','#00BFFF','#00FFFF','#00FFBF','#00FF80','#00FF40','#00FF00','#40FF00','#80FF00','#BFFF00','#FFFF00','#FFBF00','#FF8000','#FF4000','#FF0000');
-
       // ----- FUNCTION initialize() -------------------------------------
 
       // All necessary loading upon startup.
       function initialize() {
 
-        // Read in and process data.
-        $(document).ready(function() {
-          $.ajax({
-            type: "GET",
-            url: "indiv.csv",
-            dataType: "text",
-            success: function(data) {processDataIndiv(data);}
-          });
-        });
-
-        $(document).ready(function() {
-          $.ajax({
-            type: "GET",
-            url: "units.csv",
-            dataType: "text",
-            success: function(data) {processDataUnits(data);}
-          });
-        });
-
-        function processDataIndiv(allText) {
-          var allTextLines = allText.split(/\r\n|\n/);
-          var lines = [];
-          for (var i = 0; i < allTextLines.length; i++) {
-            var data = allTextLines[i].split(',');
-            heatMapDataIndiv[i] = data;
-          }
-        }
-
-        function processDataUnits(allText) {
-          var allTextLines = allText.split(/\r\n|\n/);
-          var lines = [];
-          for (var i = 0; i < allTextLines.length; i++) {
-            var data = allTextLines[i].split(',');
-            heatMapDataUnits[i] = data;
-          }
-        }
-
         var mapOptions = {
-          center: {lat: 40.1430058, lng: -74.7311156},
-          zoom: 8
+          center: {lat: 40.752406, lng: -74.176687},
+          zoom: 13
         };
 
         map = new google.maps.Map(document.getElementById('map-canvas'),
@@ -131,13 +73,14 @@
 
         // Load and parse my GeoJSON. (Created using my CreatePixelsJSON.java.)
         map.data.loadGeoJson('pixels.json');
+        // map.data.loadGeoJson('pixels_subset.json');
 
         // Add style.
         map.data.setStyle(function(feature) {
           return /* @type {google.maps.Data.StyleOptions} */ ({
             strokeColor: '#000000',
-            strokeOpacity: 0,
-            strokeWeight: 0,
+            strokeOpacity: 0.75,
+            strokeWeight: 2,
             fillColor: '#842DCE',
             fillOpacity: 0
           });
@@ -147,7 +90,7 @@
         map.data.addListener('mouseover', function(event) {
           document.getElementById('info-box').textContent =
             '(' + event.feature.getProperty('c') + ')';
-          map.data.overrideStyle(event.feature, {strokeColor: '#000000', strokeOpacity: 0.75, strokeWeight: 3});
+          map.data.overrideStyle(event.feature, {strokeColor: '#571B7E', strokeOpacity: 0.75, strokeWeight: 3, fillOpacity: 0.4});
         });
 
         // Set mouseout event for each feature,
